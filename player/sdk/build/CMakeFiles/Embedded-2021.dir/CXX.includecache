@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/e/Projects/huawei/player/sdk/code/include/Graph.h
+data.h
+/mnt/e/Projects/huawei/player/sdk/code/include/data.h
+vector
+-
+memory
+-
+iostream
+-
+
+/mnt/e/Projects/huawei/player/sdk/code/include/data.h
+iostream
+-
+vector
+-
+
+/mnt/e/Projects/huawei/player/sdk/code/main.cpp
+iostream
+-
+vector
+-
+data.h
+/mnt/e/Projects/huawei/player/sdk/code/data.h
+Graph.h
+/mnt/e/Projects/huawei/player/sdk/code/Graph.h
+

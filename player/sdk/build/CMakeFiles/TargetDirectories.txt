@@ -1,0 +1,6 @@
+/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles/rebuild_cache.dir
+/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles/edit_cache.dir
+/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles/Embedded-2021.dir
+/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/rebuild_cache.dir
+/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/edit_cache.dir
+/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir
