@@ -8,17 +8,17 @@ class Graph;
 
 class Dijkstra {
 public:
-    Dijkstra(const Graph& graph, Graph::NodeIndex source);
+    Dijkstra(Graph& graph, Graph::NodeIndex source);
     ~Dijkstra();
 
     Dijkstra(const Dijkstra&) = delete;
     Dijkstra& operator= (const Dijkstra&) = delete;
 
-private:
-    static const Graph::Dist Inf;
+    void display_dists() const; // for debug
+    void display_route() const; // for debug
 
-    const Graph&        graph_;
+private:
     Graph::NodeIndex    source_;
-    vector<Graph::NodeIndex> next_node_;
+    vector<Graph::NodeIndex> last_node_;
     vector<Graph::Dist> dists_;
 };

@@ -12,8 +12,8 @@ class Graph {
 public:
     using NodeId = uint32_t;
     struct Node {
-        NodeId id;   //节点ID
-        bool   type; //节点类型
+        NodeId id;   // 节点ID
+        bool   type; // 节点类型
     };
     using NodeIndex = vector<Node>::size_type;
     using Dist = uint32_t;
@@ -23,7 +23,9 @@ public:
         Dist      dist;
     };
     using AdjList = vector<vector<NodeIndex>>;
-    using AdjMatrix = vector<vector<bool>>;
+    using AdjMatrix = vector<vector<Dist>>;
+
+    static const Dist Inf;
 
     Graph();
     ~Graph();
@@ -58,10 +60,10 @@ public:
     const AdjList& get_adjlist();
     const AdjMatrix& get_adjmatrix();
 
-    void display_ndoes_id() const;  //for debug
-    void display_adjlist();         //for debug
-    void display_adjlist_id();      //for debug
-    // void drawAdjMatrix() const;   //for debug
+    void display_ndoes_id() const;  // for debug
+    void display_adjlist();         // for debug
+    void display_adjlist_id();      // for debug
+    // void drawAdjMatrix() const;   // for debug
 
 private:
     vector<Node> nodes_;

@@ -5,6 +5,8 @@
 
 using namespace std;
 
+const Graph::Dist Graph::Inf = UINT32_MAX;
+
 Graph::Graph() 
     : nodes_()
     , edges_() 
@@ -144,10 +146,10 @@ void Graph::update_adjlist()
 void Graph::update_adjmatrix()
 {
     if(!is_adjmatrix_new_) {
-        adjmatrix_ = AdjMatrix(get_order(), vector<bool>(get_order(), false));
+        adjmatrix_ = AdjMatrix(get_order(), vector<Dist>(get_order(), false));
         for(auto iter = edges_.begin(); iter != edges_.end(); ++iter) {
-            adjmatrix_[iter->send][iter->recv] = true;
-            adjmatrix_[iter->recv][iter->send] = true;
+            adjmatrix_[iter->send][iter->recv] = iter->dist;
+            adjmatrix_[iter->recv][iter->send] = iter->dist;
         }
         is_adjmatrix_new_ = true;
     }

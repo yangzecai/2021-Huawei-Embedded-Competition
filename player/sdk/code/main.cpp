@@ -3,6 +3,7 @@
 
 #include "data.h"
 #include "Graph.h"
+#include "Dijkstra.h"
 
 using namespace std;
 
@@ -22,6 +23,9 @@ public:
             g.display_adjlist();
             g.display_adjlist_id();
             g.display_ndoes_id();
+            Dijkstra s(g, 0);
+            s.display_dists();
+            s.display_route();
         }
         // ***建议选手在这里加入自己的处理代码***
 
