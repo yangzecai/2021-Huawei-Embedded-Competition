@@ -17,7 +17,6 @@ public:
         std::cout << graphVec.size() << std::endl;
 
         for(const Graph& g : graphVec) {
-            g.show_nodes();
             g.show_adjTable();
         }
         // ***建议选手在这里加入自己的处理代码***
