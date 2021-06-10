@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic CMakeFiles/Embedded-2021.dir/main.cpp.o source/CMakeFiles/source-objects.dir/Graph.cpp.o source/CMakeFiles/source-objects.dir/data.cpp.o  -o /mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021 
+/usr/bin/c++    -rdynamic CMakeFiles/Embedded-2021.dir/main.cpp.o source/CMakeFiles/source-objects.dir/Graph.cpp.o source/CMakeFiles/source-objects.dir/data.cpp.o  -o /home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021 

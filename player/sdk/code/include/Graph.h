@@ -10,56 +10,35 @@ class Graph {
 public:
     using num_t = uint32_t;
     using id_t  = uint32_t;
+    struct Node {
+        id_t id;    // 节点id
+        bool type;  // 节点类型
+    };
 
-    Graph() 
-        : nodes_()
-        , edges_() 
-    {
-    }
+    Graph();
+    ~Graph();
 
-    ~Graph() 
-    {
-    }
+    Graph(const Graph&) = delete;
+    Graph& operator= (const Graph&) = delete;
 
-    Graph(const Graph& graph) 
-        : nodes_(graph.nodes_)
-        , edges_(graph.edges_)
-    {    
-        std::cout << "copy con" << std::endl;
-    }
+    void swap(Graph&& rhs);
 
-    Graph& operator= (const Graph& rhs) {
-        nodes_ = rhs.nodes_;
-        edges_ = rhs.edges_;
-        std::cout << "copy ass" << std::endl;
-        return *this;
-    }
+    Graph(Graph&& rhs);
+    Graph& operator= (Graph&& rhs);
 
-
-
-    void add_node(const Node &node) 
-    {
-        nodes_.push_back(node);
-    }
-
-    void add_node(Node&& node) 
-    {
-        nodes_.push_back(std::move(node));
-    }
+    void add_node(const Node &node);
+    void add_node(Node&& node);
     
-    void add_edge(const Edge &edge) 
-    {
-        edges_.push_back(edge);
-    }
-
-    void add_edge(Edge&& edge) 
-    {
-        edges_.push_back(std::move(edge));
-    }
+    void add_edge(const Edge &edge);
+    void add_edge(Edge&& edge);
 
     static std::vector<Graph> getConnectedGraphVec(uint32_t N,
                                                    const vector<bool>& typeVec,
                                                    const vector<Edge>& edgeVec);
+
+    void show_nodes() const;        //for debug
+    void show_adjTable() const;     //for debug
+    // void drawAdjMatrix() const;   //for debug
 
 private:
     std::vector<Node> nodes_;

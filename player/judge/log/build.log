@@ -17,24 +17,14 @@ CMake suite maintained and supported by Kitware (kitware.com/cmake).
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /mnt/e/Projects/huawei/player/sdk/build
+-- Build files have been written to: /home/yangzecai/Projects/huawei/player/sdk/build
 cmake return: 0
-make: Warning: File 'Makefile' has modification time 0.29 s in the future
-make[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 0.36 s in the future
-make[2]: Warning: File 'source/CMakeFiles/source-objects.dir/flags.make' has modification time 0.27 s in the future
 Scanning dependencies of target source-objects
-make[2]: warning:  Clock skew detected.  Your build may be incomplete.
-make[2]: Warning: File 'source/CMakeFiles/source-objects.dir/flags.make' has modification time 0.15 s in the future
 [ 25%] Building CXX object source/CMakeFiles/source-objects.dir/Graph.cpp.o
 [ 50%] Building CXX object source/CMakeFiles/source-objects.dir/data.cpp.o
-make[2]: warning:  Clock skew detected.  Your build may be incomplete.
 [ 50%] Built target source-objects
 Scanning dependencies of target Embedded-2021
-make[2]: Warning: File 'CMakeFiles/Embedded-2021.dir/depend.make' has modification time 0.42 s in the future
 [ 75%] Building CXX object CMakeFiles/Embedded-2021.dir/main.cpp.o
-[100%] Linking CXX executable /mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021
-make[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Linking CXX executable /home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021
 [100%] Built target Embedded-2021
-make[1]: warning:  Clock skew detected.  Your build may be incomplete.
-make: warning:  Clock skew detected.  Your build may be incomplete.
 make return: 0

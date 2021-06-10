@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021"
-  "/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021.pdb"
+  "/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021"
+  "/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021.pdb"
   "CMakeFiles/Embedded-2021.dir/main.cpp.o"
 )
 

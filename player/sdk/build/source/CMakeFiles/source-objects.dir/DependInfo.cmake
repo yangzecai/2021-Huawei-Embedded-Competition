@@ -4,14 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/e/Projects/huawei/player/sdk/code/source/Graph.cpp" "/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/Graph.cpp.o"
-  "/mnt/e/Projects/huawei/player/sdk/code/source/data.cpp" "/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/data.cpp.o"
+  "/home/yangzecai/Projects/huawei/player/sdk/code/source/Graph.cpp" "/home/yangzecai/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/Graph.cpp.o"
+  "/home/yangzecai/Projects/huawei/player/sdk/code/source/data.cpp" "/home/yangzecai/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/data.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/mnt/e/Projects/huawei/player/sdk/code/include"
+  "/home/yangzecai/Projects/huawei/player/sdk/code/include"
   )
 
 # Targets to which this target links.

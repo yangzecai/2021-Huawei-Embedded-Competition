@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/e/Projects/huawei/player/sdk/code
+CMAKE_SOURCE_DIR = /home/yangzecai/Projects/huawei/player/sdk/code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/e/Projects/huawei/player/sdk/build
+CMAKE_BINARY_DIR = /home/yangzecai/Projects/huawei/player/sdk/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/e/Projects/huawei/player/sdk/build/CMakeFiles /mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/progress.marks
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/e/Projects/huawei/player/sdk/build/CMakeFiles 0
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles /home/yangzecai/Projects/huawei/player/sdk/build/source/CMakeFiles/progress.marks
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/clean
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/preinstall
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/preinstall
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 source/CMakeFiles/source-objects.dir/rule:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/source-objects.dir/rule
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/source-objects.dir/rule
 .PHONY : source/CMakeFiles/source-objects.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ source-objects: source/CMakeFiles/source-objects.dir/rule
 
 # fast build rule for target.
 source-objects/fast:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/build
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/build
 .PHONY : source-objects/fast
 
 Graph.o: Graph.cpp.o
@@ -131,7 +131,7 @@ Graph.o: Graph.cpp.o
 
 # target to build an object file
 Graph.cpp.o:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/Graph.cpp.o
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/Graph.cpp.o
 .PHONY : Graph.cpp.o
 
 Graph.i: Graph.cpp.i
@@ -140,7 +140,7 @@ Graph.i: Graph.cpp.i
 
 # target to preprocess a source file
 Graph.cpp.i:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/Graph.cpp.i
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/Graph.cpp.i
 .PHONY : Graph.cpp.i
 
 Graph.s: Graph.cpp.s
@@ -149,7 +149,7 @@ Graph.s: Graph.cpp.s
 
 # target to generate assembly for a file
 Graph.cpp.s:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/Graph.cpp.s
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/Graph.cpp.s
 .PHONY : Graph.cpp.s
 
 data.o: data.cpp.o
@@ -158,7 +158,7 @@ data.o: data.cpp.o
 
 # target to build an object file
 data.cpp.o:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/data.cpp.o
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/data.cpp.o
 .PHONY : data.cpp.o
 
 data.i: data.cpp.i
@@ -167,7 +167,7 @@ data.i: data.cpp.i
 
 # target to preprocess a source file
 data.cpp.i:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/data.cpp.i
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/data.cpp.i
 .PHONY : data.cpp.i
 
 data.s: data.cpp.s
@@ -176,7 +176,7 @@ data.s: data.cpp.s
 
 # target to generate assembly for a file
 data.cpp.s:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/data.cpp.s
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(MAKE) -f source/CMakeFiles/source-objects.dir/build.make source/CMakeFiles/source-objects.dir/data.cpp.s
 .PHONY : data.cpp.s
 
 # Help Target
@@ -205,6 +205,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

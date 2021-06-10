@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/e/Projects/huawei/player/sdk/code
+# Install script for directory: /home/yangzecai/Projects/huawei/player/sdk/code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/mnt/e/Projects/huawei/player/sdk/build/source/cmake_install.cmake")
+  include("/home/yangzecai/Projects/huawei/player/sdk/build/source/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/e/Projects/huawei/player/sdk/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/yangzecai/Projects/huawei/player/sdk/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

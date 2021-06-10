@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++17
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/mnt/e/Projects/huawei/player/sdk/code/include 
+CXX_INCLUDES = -I/home/yangzecai/Projects/huawei/player/sdk/code/include 
 

@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/mnt/e/Projects/huawei/player/sdk/code/include/Graph.h
+/home/yangzecai/Projects/huawei/player/sdk/code/include/Graph.h
 data.h
-/mnt/e/Projects/huawei/player/sdk/code/include/data.h
+/home/yangzecai/Projects/huawei/player/sdk/code/include/data.h
 vector
 -
 memory
@@ -16,19 +16,19 @@ memory
 iostream
 -
 
-/mnt/e/Projects/huawei/player/sdk/code/include/data.h
+/home/yangzecai/Projects/huawei/player/sdk/code/include/data.h
 iostream
 -
 vector
 -
 
-/mnt/e/Projects/huawei/player/sdk/code/main.cpp
+/home/yangzecai/Projects/huawei/player/sdk/code/main.cpp
 iostream
 -
 vector
 -
 data.h
-/mnt/e/Projects/huawei/player/sdk/code/data.h
+/home/yangzecai/Projects/huawei/player/sdk/code/data.h
 Graph.h
-/mnt/e/Projects/huawei/player/sdk/code/Graph.h
+/home/yangzecai/Projects/huawei/player/sdk/code/Graph.h
 

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/e/Projects/huawei/player/sdk/code
+CMAKE_SOURCE_DIR = /home/yangzecai/Projects/huawei/player/sdk/code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/e/Projects/huawei/player/sdk/build
+CMAKE_BINARY_DIR = /home/yangzecai/Projects/huawei/player/sdk/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Embedded-2021.dir/depend.make
@@ -58,17 +58,17 @@ include CMakeFiles/Embedded-2021.dir/progress.make
 include CMakeFiles/Embedded-2021.dir/flags.make
 
 CMakeFiles/Embedded-2021.dir/main.cpp.o: CMakeFiles/Embedded-2021.dir/flags.make
-CMakeFiles/Embedded-2021.dir/main.cpp.o: /mnt/e/Projects/huawei/player/sdk/code/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Embedded-2021.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Embedded-2021.dir/main.cpp.o -c /mnt/e/Projects/huawei/player/sdk/code/main.cpp
+CMakeFiles/Embedded-2021.dir/main.cpp.o: /home/yangzecai/Projects/huawei/player/sdk/code/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Embedded-2021.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Embedded-2021.dir/main.cpp.o -c /home/yangzecai/Projects/huawei/player/sdk/code/main.cpp
 
 CMakeFiles/Embedded-2021.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Embedded-2021.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/Projects/huawei/player/sdk/code/main.cpp > CMakeFiles/Embedded-2021.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yangzecai/Projects/huawei/player/sdk/code/main.cpp > CMakeFiles/Embedded-2021.dir/main.cpp.i
 
 CMakeFiles/Embedded-2021.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Embedded-2021.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Projects/huawei/player/sdk/code/main.cpp -o CMakeFiles/Embedded-2021.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yangzecai/Projects/huawei/player/sdk/code/main.cpp -o CMakeFiles/Embedded-2021.dir/main.cpp.s
 
 # Object files for target Embedded-2021
 Embedded__2021_OBJECTS = \
@@ -76,19 +76,19 @@ Embedded__2021_OBJECTS = \
 
 # External object files for target Embedded-2021
 Embedded__2021_EXTERNAL_OBJECTS = \
-"/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/Graph.cpp.o" \
-"/mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/data.cpp.o"
+"/home/yangzecai/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/Graph.cpp.o" \
+"/home/yangzecai/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/data.cpp.o"
 
-/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021: CMakeFiles/Embedded-2021.dir/main.cpp.o
-/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021: source/CMakeFiles/source-objects.dir/Graph.cpp.o
-/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021: source/CMakeFiles/source-objects.dir/data.cpp.o
-/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021: CMakeFiles/Embedded-2021.dir/build.make
-/mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021: CMakeFiles/Embedded-2021.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021"
+/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021: CMakeFiles/Embedded-2021.dir/main.cpp.o
+/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021: source/CMakeFiles/source-objects.dir/Graph.cpp.o
+/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021: source/CMakeFiles/source-objects.dir/data.cpp.o
+/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021: CMakeFiles/Embedded-2021.dir/build.make
+/home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021: CMakeFiles/Embedded-2021.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Embedded-2021.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/Embedded-2021.dir/build: /mnt/e/Projects/huawei/player/sdk/bin/Embedded-2021
+CMakeFiles/Embedded-2021.dir/build: /home/yangzecai/Projects/huawei/player/sdk/bin/Embedded-2021
 
 .PHONY : CMakeFiles/Embedded-2021.dir/build
 
@@ -97,6 +97,6 @@ CMakeFiles/Embedded-2021.dir/clean:
 .PHONY : CMakeFiles/Embedded-2021.dir/clean
 
 CMakeFiles/Embedded-2021.dir/depend:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/e/Projects/huawei/player/sdk/code /mnt/e/Projects/huawei/player/sdk/code /mnt/e/Projects/huawei/player/sdk/build /mnt/e/Projects/huawei/player/sdk/build /mnt/e/Projects/huawei/player/sdk/build/CMakeFiles/Embedded-2021.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yangzecai/Projects/huawei/player/sdk/code /home/yangzecai/Projects/huawei/player/sdk/code /home/yangzecai/Projects/huawei/player/sdk/build /home/yangzecai/Projects/huawei/player/sdk/build /home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles/Embedded-2021.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Embedded-2021.dir/depend
 

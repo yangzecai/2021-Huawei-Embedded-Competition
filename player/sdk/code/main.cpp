@@ -14,7 +14,12 @@ public:
         vector<Route> retRouteVec;
 
         vector<Graph> graphVec = Graph::getConnectedGraphVec(N, typeVec, edgeVec);
-        
+        std::cout << graphVec.size() << std::endl;
+
+        for(const Graph& g : graphVec) {
+            g.show_nodes();
+            g.show_adjTable();
+        }
         // ***建议选手在这里加入自己的处理代码***
 
         // 结果输出到retRouteVec中，如下面6行，每行输出一条路径：

@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/e/Projects/huawei/player/sdk/code/source
+# Install script for directory: /home/yangzecai/Projects/huawei/player/sdk/code/source
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

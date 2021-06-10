@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/e/Projects/huawei/player/sdk/code
+CMAKE_SOURCE_DIR = /home/yangzecai/Projects/huawei/player/sdk/code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/e/Projects/huawei/player/sdk/build
+CMAKE_BINARY_DIR = /home/yangzecai/Projects/huawei/player/sdk/build
 
 # Include any dependencies generated for this target.
 include source/CMakeFiles/source-objects.dir/depend.make
@@ -58,30 +58,30 @@ include source/CMakeFiles/source-objects.dir/progress.make
 include source/CMakeFiles/source-objects.dir/flags.make
 
 source/CMakeFiles/source-objects.dir/Graph.cpp.o: source/CMakeFiles/source-objects.dir/flags.make
-source/CMakeFiles/source-objects.dir/Graph.cpp.o: /mnt/e/Projects/huawei/player/sdk/code/source/Graph.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object source/CMakeFiles/source-objects.dir/Graph.cpp.o"
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/source-objects.dir/Graph.cpp.o -c /mnt/e/Projects/huawei/player/sdk/code/source/Graph.cpp
+source/CMakeFiles/source-objects.dir/Graph.cpp.o: /home/yangzecai/Projects/huawei/player/sdk/code/source/Graph.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object source/CMakeFiles/source-objects.dir/Graph.cpp.o"
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/source-objects.dir/Graph.cpp.o -c /home/yangzecai/Projects/huawei/player/sdk/code/source/Graph.cpp
 
 source/CMakeFiles/source-objects.dir/Graph.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/source-objects.dir/Graph.cpp.i"
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/Projects/huawei/player/sdk/code/source/Graph.cpp > CMakeFiles/source-objects.dir/Graph.cpp.i
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yangzecai/Projects/huawei/player/sdk/code/source/Graph.cpp > CMakeFiles/source-objects.dir/Graph.cpp.i
 
 source/CMakeFiles/source-objects.dir/Graph.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/source-objects.dir/Graph.cpp.s"
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Projects/huawei/player/sdk/code/source/Graph.cpp -o CMakeFiles/source-objects.dir/Graph.cpp.s
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yangzecai/Projects/huawei/player/sdk/code/source/Graph.cpp -o CMakeFiles/source-objects.dir/Graph.cpp.s
 
 source/CMakeFiles/source-objects.dir/data.cpp.o: source/CMakeFiles/source-objects.dir/flags.make
-source/CMakeFiles/source-objects.dir/data.cpp.o: /mnt/e/Projects/huawei/player/sdk/code/source/data.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/e/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object source/CMakeFiles/source-objects.dir/data.cpp.o"
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/source-objects.dir/data.cpp.o -c /mnt/e/Projects/huawei/player/sdk/code/source/data.cpp
+source/CMakeFiles/source-objects.dir/data.cpp.o: /home/yangzecai/Projects/huawei/player/sdk/code/source/data.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yangzecai/Projects/huawei/player/sdk/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object source/CMakeFiles/source-objects.dir/data.cpp.o"
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/source-objects.dir/data.cpp.o -c /home/yangzecai/Projects/huawei/player/sdk/code/source/data.cpp
 
 source/CMakeFiles/source-objects.dir/data.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/source-objects.dir/data.cpp.i"
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/e/Projects/huawei/player/sdk/code/source/data.cpp > CMakeFiles/source-objects.dir/data.cpp.i
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yangzecai/Projects/huawei/player/sdk/code/source/data.cpp > CMakeFiles/source-objects.dir/data.cpp.i
 
 source/CMakeFiles/source-objects.dir/data.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/source-objects.dir/data.cpp.s"
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/e/Projects/huawei/player/sdk/code/source/data.cpp -o CMakeFiles/source-objects.dir/data.cpp.s
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yangzecai/Projects/huawei/player/sdk/code/source/data.cpp -o CMakeFiles/source-objects.dir/data.cpp.s
 
 source-objects: source/CMakeFiles/source-objects.dir/Graph.cpp.o
 source-objects: source/CMakeFiles/source-objects.dir/data.cpp.o
@@ -95,10 +95,10 @@ source/CMakeFiles/source-objects.dir/build: source-objects
 .PHONY : source/CMakeFiles/source-objects.dir/build
 
 source/CMakeFiles/source-objects.dir/clean:
-	cd /mnt/e/Projects/huawei/player/sdk/build/source && $(CMAKE_COMMAND) -P CMakeFiles/source-objects.dir/cmake_clean.cmake
+	cd /home/yangzecai/Projects/huawei/player/sdk/build/source && $(CMAKE_COMMAND) -P CMakeFiles/source-objects.dir/cmake_clean.cmake
 .PHONY : source/CMakeFiles/source-objects.dir/clean
 
 source/CMakeFiles/source-objects.dir/depend:
-	cd /mnt/e/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/e/Projects/huawei/player/sdk/code /mnt/e/Projects/huawei/player/sdk/code/source /mnt/e/Projects/huawei/player/sdk/build /mnt/e/Projects/huawei/player/sdk/build/source /mnt/e/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/yangzecai/Projects/huawei/player/sdk/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yangzecai/Projects/huawei/player/sdk/code /home/yangzecai/Projects/huawei/player/sdk/code/source /home/yangzecai/Projects/huawei/player/sdk/build /home/yangzecai/Projects/huawei/player/sdk/build/source /home/yangzecai/Projects/huawei/player/sdk/build/source/CMakeFiles/source-objects.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : source/CMakeFiles/source-objects.dir/depend
 
