@@ -16,11 +16,14 @@ public:
         bool   type; //节点类型
     };
     using NodeIndex = vector<Node>::size_type;
+    using Dist = uint32_t;
     struct Edge {
         NodeIndex send;
         NodeIndex recv;
-        size_t    dist;
+        Dist      dist;
     };
+    using AdjList = vector<vector<NodeIndex>>;
+    using AdjMatrix = vector<vector<bool>>;
 
     Graph();
     ~Graph();
@@ -33,24 +36,44 @@ public:
     Graph(Graph&& rhs);
     Graph& operator= (Graph&& rhs);
 
-    void add_node(const Node &node);
-    void add_node(Node&& node);
-    const vector<Node>& get_nodes() const;
-
-    void add_edge(const Edge &edge);
-    void add_edge(Edge&& edge);
-    const vector<Edge>& get_edges() const;
-
     static std::vector<Graph> getConnectedGraphVec(uint32_t N,
                                                    const vector<bool>& typeVec,
                                                    const vector<::Edge>& edgeVec);
 
-    void show_nodes() const;        //for debug
-    void show_adjTable() const;     //for debug
+    void add_node(const Node &node);
+    void add_node(Node&& node);
+    const vector<Node>& get_nodes() const 
+    { return nodes_; }
+    NodeId get_node_id(NodeIndex i) const 
+    { return nodes_[i].id; }
+
+    void add_edge(const Edge &edge);
+    void add_edge(Edge&& edge);
+    const vector<Edge>& get_edges() const
+    { return edges_; }
+
+    size_t get_order() const
+    { return nodes_.size(); }
+
+    const AdjList& get_adjlist();
+    const AdjMatrix& get_adjmatrix();
+
+    void display_ndoes_id() const;  //for debug
+    void display_adjlist();         //for debug
+    void display_adjlist_id();      //for debug
     // void drawAdjMatrix() const;   //for debug
 
 private:
-    std::vector<Node> nodes_;
-    std::vector<Edge> edges_;
+    vector<Node> nodes_;
+    vector<Edge> edges_;
+
+    bool is_adjlist_new_;
+    AdjList adjlist_;
+
+    bool is_adjmatrix_new_;
+    AdjMatrix adjmatrix_;
+
+    void update_adjlist();
+    void update_adjmatrix();
 };
 

@@ -16,8 +16,12 @@ public:
         vector<Graph> graphVec = Graph::getConnectedGraphVec(N, typeVec, edgeVec);
         std::cout << graphVec.size() << std::endl;
 
-        for(const Graph& g : graphVec) {
-            g.show_adjTable();
+        for(Graph& g : graphVec) {
+            g.get_adjlist();
+            g.get_adjmatrix();
+            g.display_adjlist();
+            g.display_adjlist_id();
+            g.display_ndoes_id();
         }
         // ***建议选手在这里加入自己的处理代码***
 

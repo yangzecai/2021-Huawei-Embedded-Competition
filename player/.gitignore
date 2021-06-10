@@ -1,0 +1,7 @@
+.vscode/*
+judge/__pycache__/*
+judge/log/*
+judge/solu/*
+sdk/bin/*
+sdk/build/*
+

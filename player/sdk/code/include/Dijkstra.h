@@ -4,16 +4,21 @@
 
 #include <vector>
 
+class Graph;
+
 class Dijkstra {
 public:
-    Dijkstra(const Graph&, id_t source);
+    Dijkstra(const Graph& graph, Graph::NodeIndex source);
     ~Dijkstra();
 
     Dijkstra(const Dijkstra&) = delete;
     Dijkstra& operator= (const Dijkstra&) = delete;
 
-    void solve();
 private:
-    const Graph&    graph_;
-    id_t            source_;
+    static const Graph::Dist Inf;
+
+    const Graph&        graph_;
+    Graph::NodeIndex    source_;
+    vector<Graph::NodeIndex> next_node_;
+    vector<Graph::Dist> dists_;
 };
