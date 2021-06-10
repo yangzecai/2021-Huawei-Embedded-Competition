@@ -4,4 +4,5 @@ player/judge/log/*
 player/judge/solu/*
 player/sdk/bin/*
 player/sdk/build/*
+.vscode/*
 
