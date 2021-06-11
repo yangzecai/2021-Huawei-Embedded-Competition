@@ -52,7 +52,6 @@ Graph& Graph::operator= (Graph&& rhs)
 }
 
 vector<Graph> Graph::getConnectedGraphVec(uint32_t N,
-                                          const vector<bool>& typeVec,
                                           const vector<::Edge>& edgeVec)
 {
     using GraphIndex = vector<Graph>::size_type;
@@ -77,7 +76,7 @@ vector<Graph> Graph::getConnectedGraphVec(uint32_t N,
         GraphIndex graph_index = graph_index_map[set_id];
         NodeIndex node_index = ret_graph_vec[graph_index].get_nodes().size();
         node_index_map[i] = node_index;
-        ret_graph_vec[graph_index].add_node(Node{i, typeVec[i]});
+        ret_graph_vec[graph_index].add_node(i);
     }
 
     // 将边添加到相应的连通图中
@@ -91,14 +90,14 @@ vector<Graph> Graph::getConnectedGraphVec(uint32_t N,
 }
 
 
-void Graph::add_node(const Node &node) 
+void Graph::add_node(const NodeId &node) 
 {
     is_adjlist_new_ = false;
     is_adjmatrix_new_ = false;
     nodes_.push_back(node);
 }
 
-void Graph::add_node(Node&& node) 
+void Graph::add_node(NodeId&& node) 
 {
     is_adjlist_new_ = false;
     is_adjmatrix_new_ = false;
@@ -146,7 +145,7 @@ void Graph::update_adjlist()
 void Graph::update_adjmatrix()
 {
     if(!is_adjmatrix_new_) {
-        adjmatrix_ = AdjMatrix(get_order(), vector<Dist>(get_order(), false));
+        adjmatrix_ = AdjMatrix(get_order(), vector<Dist>(get_order(), Inf));
         for(auto iter = edges_.begin(); iter != edges_.end(); ++iter) {
             adjmatrix_[iter->send][iter->recv] = iter->dist;
             adjmatrix_[iter->recv][iter->send] = iter->dist;
@@ -159,7 +158,7 @@ void Graph::display_ndoes_id() const
 {
     cout << "------------nodes_id------------" << endl;
     for(auto &n : nodes_) {
-        cout << n.id << " ";
+        cout << n << " ";
     }
     cout << endl;
     cout << "--------------------------------" << endl;

@@ -14,10 +14,11 @@ public:
     {
         vector<Route> retRouteVec;
 
-        vector<Graph> graphVec = Graph::getConnectedGraphVec(N, typeVec, edgeVec);
+        vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
         std::cout << graphVec.size() << std::endl;
 
         for(Graph& g : graphVec) {
+            
             g.get_adjlist();
             g.get_adjmatrix();
             g.display_adjlist();
