@@ -59,7 +59,7 @@ void Scheme::solveConnected(SGIndex sgIndex)
         min_element(dists.cbegin(), dists.cend()) - dists.begin();
 
     vector<Graph::Route>& routes = getRoutes(sgIndex);
-    Dijkstra djks(graph, recvSate);
+    Dijkstra djks(graph, getSates(sgIndex)[recvSate]);
     for(auto station : stations) {
         routes.push_back(std::move(djks.getRoute(station)));
     }
