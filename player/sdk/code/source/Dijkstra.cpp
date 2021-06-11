@@ -52,6 +52,26 @@ Dijkstra::~Dijkstra()
 {
 }
 
+Graph::Dist Dijkstra::getDistSum(const vector<Graph::NodeIndex>& nodes) const
+{
+    Graph::Dist sum = 0;
+    for(auto node : nodes) {
+        sum += getDist(node);
+    }
+    return sum;
+}
+
+vector<Graph::NodeIndex> Dijkstra::getRoute(Graph::NodeIndex node) const
+{
+    vector<Graph::NodeIndex> retRoute;
+    retRoute.push_back(node);
+    while(last_[node] != node) {
+        node = last_[node];
+        retRoute.push_back(node);
+    }
+    return retRoute;
+}
+
 void Dijkstra::displayDists() const 
 {
     cout << "------------dists------------" << endl;

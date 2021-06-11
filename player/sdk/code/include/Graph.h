@@ -18,6 +18,7 @@ public:
         NodeIndex recv;
         Dist      dist;
     };
+    using Route = vector<NodeIndex>;
     using AdjList = vector<vector<NodeIndex>>;
     using AdjMatrix = vector<vector<Dist>>;
 

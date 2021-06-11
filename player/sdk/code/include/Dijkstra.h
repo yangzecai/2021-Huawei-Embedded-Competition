@@ -14,6 +14,12 @@ public:
     Dijkstra(const Dijkstra&) = delete;
     Dijkstra& operator= (const Dijkstra&) = delete;
 
+    Graph::Dist getDist(const Graph::NodeIndex node) const
+    { return dists_[node]; }
+    Graph::Dist getDistSum(const vector<Graph::NodeIndex>&) const;
+
+    Graph::Route getRoute(Graph::NodeIndex) const;
+
     void displayDists() const; // for debug
     void displayRoute() const; // for debug
 
