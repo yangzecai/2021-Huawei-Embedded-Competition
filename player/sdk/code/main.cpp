@@ -15,7 +15,9 @@ public:
     {
         Scheme s(N, C, D, PS, typeVec, edgeVec);
         s.solve();
-        return s.getRouteVec();
+        return s.parseRoutes();
+
+
         // vector<Route> retRouteVec;
 
         // vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
@@ -42,7 +44,7 @@ public:
         // retRouteVec.push_back({9, 4, 3, 1});
         // retRouteVec.push_back({10, 4, 3, 1});
 
-        // return retRouteVec;
+        return retRouteVec;
     }
 };
 

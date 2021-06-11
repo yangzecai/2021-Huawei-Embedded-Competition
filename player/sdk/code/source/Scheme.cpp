@@ -6,25 +6,30 @@
 
 Scheme::Scheme(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
                const vector<bool>& typeVec, const vector<Edge>& edgeVec)
-    : graphs_(Graph::getConnectedGraphVec(N, edgeVec))
-    , stations_(graphs_.size())
-    , satellites_(graphs_.size())
+    : schemeGraphs_()
     , coeff_(C)
     , limit_(D)
     , site_(PS)
-    , routes_(graphs_.size(), vector<Graph::Route>())
 {
-    for(GraphIndex i = 0; i < graphs_.size(); ++i) {    //分离卫星和基站
+    vector<Graph> graphs = Graph::getConnectedGraphVec(N, edgeVec);
+    for(Graph& graph : graphs) {
+        schemeGraphs_.push_back(SchemeGraph{std::move(graph),
+                                            vector<Graph::NodeIndex>(),
+                                            vector<Graph::NodeIndex>(),
+                                            vector<Graph::Route>()});
+    }
 
-        const vector<Graph::NodeId> &nodes = graphs_[i].getNodes();
-        satellites_[i].reserve(nodes.size());
-        stations_[i].reserve(nodes.size());
+    for(SGIndex i = 0; i < schemeGraphs_.size(); ++i) {    //分离卫星和基站
+
+        const vector<Graph::NodeId> &nodes = getGraph(i).getNodes();
+        getStats(i).reserve(nodes.size());
+        getSates(i).reserve(nodes.size());
 
         for(Graph::NodeIndex j = 0; j < nodes.size(); ++j) {
             if(typeVec[nodes[j]]) {
-                satellites_[i].push_back(j);
+                getSates(i).push_back(j);
             } else {
-                stations_[i].push_back(j);
+                getStats(i).push_back(j);
             }
         }
     }
@@ -34,13 +39,13 @@ Scheme::~Scheme()
 {
 }
 
-void Scheme::solveConnected(GraphIndex graphIndex) 
+void Scheme::solveConnected(SGIndex sgIndex) 
 {
-    assert(graphs_.size() > graphIndex);
+    assert(schemeGraphs_.size() > sgIndex);
 
-    Graph& graph = graphs_[graphIndex];
-    const vector<Graph::NodeIndex>& stations = stations_[graphIndex];
-    const vector<Graph::NodeIndex>& satellites = stations_[graphIndex];
+    Graph& graph = getGraph(sgIndex);
+    const vector<Graph::NodeIndex>& stations = getStats(sgIndex);
+    const vector<Graph::NodeIndex>& satellites = getSates(sgIndex);
 
     vector<Graph::Dist> dists;
     dists.reserve(satellites.size());
@@ -53,7 +58,7 @@ void Scheme::solveConnected(GraphIndex graphIndex)
     Graph::NodeIndex recvSate = 
         min_element(dists.cbegin(), dists.cend()) - dists.begin();
 
-    vector<Graph::Route>& routes = routes_[graphIndex];
+    vector<Graph::Route>& routes = getRoutes(sgIndex);
     Dijkstra djks(graph, recvSate);
     for(auto station : stations) {
         routes.push_back(std::move(djks.getRoute(station)));
@@ -62,22 +67,31 @@ void Scheme::solveConnected(GraphIndex graphIndex)
 
 void Scheme::solve()
 {
-    for(GraphIndex i = 0; i < graphs_.size(); ++i) {
+    for(SGIndex i = 0; i < schemeGraphs_.size(); ++i) {
         solveConnected(i);
     }
 }
 
-vector<::Route> Scheme::getRouteVec()
+vector<::Route> Scheme::parseRoutes()
 {
     vector<::Route> retRouteVec;
-    for(GraphIndex i = 0; i < routes_.size(); ++i) {
-        for(RouteIndex j = 0; j < routes_[i].size(); ++j) {
+    for(SGIndex i = 0; i < schemeGraphs_.size(); ++i) {
+        for(RouteIndex j = 0; j < getRoutes(i).size(); ++j) {
             retRouteVec.push_back(::Route());
-            Graph::Route& route = routes_[i][j];
+            Graph::Route& route = getRoutes(i)[j];
             for(Graph::NodeIndex k : route) {
-                retRouteVec.back().push_back(graphs_[i].getNodeId(k));
+                retRouteVec.back().push_back(getGraph(i).getNodeId(k));
             }
         }
     }
     return retRouteVec;
 }
+
+// void Scheme::samllModify(Dijkstra &djks) 
+// {
+//     vector<Graph::NodeIndex>& last = djks.getLast();
+//     for(auto station : stations_) {
+//         Graph::Dist sum = 0;
+        
+//     }
+// }
