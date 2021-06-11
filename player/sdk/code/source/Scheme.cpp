@@ -60,6 +60,28 @@ void Scheme::solveConnected(SGIndex sgIndex)
 
     vector<Graph::Route>& routes = getRoutes(sgIndex);
     Dijkstra djks(graph, getSates(sgIndex)[recvSate]);
+
+    // for fitting constraint
+    Graph::AdjMatrix adjMatrix = getGraph(sgIndex).getAdjMatrix();
+    vector<Graph::NodeIndex>& lasts = djks.getLast();
+    for(Graph::NodeIndex node : stations) {
+        Graph::Dist dist = 0;
+        // cout << "---------route----------" << endl;
+        // cout << node << " ";
+        while(lasts[node] != node) {
+            // cout << "(" << adjMatrix[node][lasts[node]] << ") ";
+            dist += adjMatrix[node][lasts[node]];
+            if(dist > limit_) {
+                lasts[node] = node;
+                break;
+            }
+            node = lasts[node];
+            // cout << node << " ";
+        }
+        // cout << endl;
+        // cout << "------------------------" << endl;
+    }
+
     for(auto station : stations) {
         routes.push_back(std::move(djks.getRoute(station)));
     }
@@ -86,12 +108,3 @@ vector<::Route> Scheme::parseRoutes()
     }
     return retRouteVec;
 }
-
-// void Scheme::samllModify(Dijkstra &djks) 
-// {
-//     vector<Graph::NodeIndex>& last = djks.getLast();
-//     for(auto station : stations_) {
-//         Graph::Dist sum = 0;
-        
-//     }
-// }
