@@ -13,7 +13,7 @@ Scheme::Scheme(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
 {
     for(GraphIndex i = 0; i < graphs_.size(); ++i) {
 
-        const vector<Graph::NodeId> &nodes = graphs_[i].get_nodes();
+        const vector<Graph::NodeId> &nodes = graphs_[i].getNodes();
         satellites_.reserve(nodes.size());
         stations_.reserve(nodes.size());
 
@@ -27,7 +27,7 @@ Scheme::Scheme(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
     }
 }
 
-void Scheme::solveConnected(GraphIndex graph_index) 
+void Scheme::solveConnected(GraphIndex graphIndex) 
 {
-    assert(graphs_.size() > graph_index);
+    assert(graphs_.size() > graphIndex);
 }

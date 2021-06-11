@@ -18,7 +18,7 @@ public:
     Scheme& operator= (const Scheme&) = delete;
 
     void solve();
-    void solveConnected(GraphIndex graph_index);
+    void solveConnected(GraphIndex graphIndex);
 
 private:
     vector<Graph> graphs_;

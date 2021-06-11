@@ -37,40 +37,40 @@ public:
     static std::vector<Graph> getConnectedGraphVec(uint32_t N,
                                                    const vector<::Edge>& edgeVec);
 
-    void add_node(const NodeId &node);
-    void add_node(NodeId&& node);
-    const vector<NodeId>& get_nodes() const 
+    void addNode(const NodeId &node);
+    void addNode(NodeId&& node);
+    const vector<NodeId>& getNodes() const 
     { return nodes_; }
-    NodeId get_node_id(NodeIndex i) const 
+    NodeId getNodeId(NodeIndex i) const 
     { return nodes_[i]; }
 
-    void add_edge(const Edge &edge);
-    void add_edge(Edge&& edge);
-    const vector<Edge>& get_edges() const
+    void addEdge(const Edge &edge);
+    void addEdge(Edge&& edge);
+    const vector<Edge>& getEdges() const
     { return edges_; }
 
-    size_t get_order() const
+    size_t getOrder() const
     { return nodes_.size(); }
 
-    const AdjList& get_adjlist();
-    const AdjMatrix& get_adjmatrix();
+    const AdjList& getAdjList();
+    const AdjMatrix& getAdjMatrix();
 
-    void display_ndoes_id() const;  // for debug
-    void display_adjlist();         // for debug
-    void display_adjlist_id();      // for debug
+    void displayNodesId() const;  // for debug
+    void displayAdjList();         // for debug
+    void displayAdjListId();      // for debug
     // void drawAdjMatrix() const;   // for debug
 
 private:
     vector<NodeId> nodes_;
     vector<Edge> edges_;
 
-    bool is_adjlist_new_;
-    AdjList adjlist_;
+    bool isAdjListNew_;
+    AdjList adjList_;
 
-    bool is_adjmatrix_new_;
-    AdjMatrix adjmatrix_;
+    bool isAdjMatrixNew_;
+    AdjMatrix adjMatrix_;
 
-    void update_adjlist();
-    void update_adjmatrix();
+    void updateAdjList();
+    void updateAdjMatrix();
 };
 

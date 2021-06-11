@@ -14,11 +14,11 @@ public:
     Dijkstra(const Dijkstra&) = delete;
     Dijkstra& operator= (const Dijkstra&) = delete;
 
-    void display_dists() const; // for debug
-    void display_route() const; // for debug
+    void displayDists() const; // for debug
+    void displayRoute() const; // for debug
 
 private:
     Graph::NodeIndex    source_;
-    vector<Graph::NodeIndex> last_node_;
+    vector<Graph::NodeIndex> last_;
     vector<Graph::Dist> dists_;
 };

@@ -19,14 +19,14 @@ public:
 
         for(Graph& g : graphVec) {
             
-            g.get_adjlist();
-            g.get_adjmatrix();
-            g.display_adjlist();
-            g.display_adjlist_id();
-            g.display_ndoes_id();
+            g.getAdjList();
+            g.getAdjMatrix();
+            g.displayAdjList();
+            g.displayAdjListId();
+            g.displayNodesId();
             Dijkstra s(g, 0);
-            s.display_dists();
-            s.display_route();
+            s.displayDists();
+            s.displayRoute();
         }
         // ***建议选手在这里加入自己的处理代码***
 
