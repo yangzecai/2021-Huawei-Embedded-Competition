@@ -40,7 +40,7 @@ void Scheme::solveConnected(GraphIndex graphIndex)
 
     Graph& graph = graphs_[graphIndex];
     const vector<Graph::NodeIndex>& stations = stations_[graphIndex];
-    const vector<Graph::NodeIndex>& satellites = stations_[graphIndex];
+    const vector<Graph::NodeIndex>& satellites = satellites_[graphIndex];
 
     vector<Graph::Dist> dists;
     dists.reserve(satellites.size());
@@ -54,7 +54,7 @@ void Scheme::solveConnected(GraphIndex graphIndex)
         min_element(dists.cbegin(), dists.cend()) - dists.begin();
 
     vector<Graph::Route>& routes = routes_[graphIndex];
-    Dijkstra djks(graph, recvSate);
+    Dijkstra djks(graph, satellites[recvSate]);
     for(auto station : stations) {
         routes.push_back(std::move(djks.getRoute(station)));
     }
