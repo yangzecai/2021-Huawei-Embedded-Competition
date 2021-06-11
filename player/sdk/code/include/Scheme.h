@@ -5,7 +5,13 @@
 
 class Scheme {
 public:
-    using GraphIndex = vector<Graph>::size_type;
+    struct SchemeGraph {
+        Graph graph;
+        vector<Graph::NodeIndex> stations;
+        vector<Graph::NodeIndex> satellites;
+        vector<Graph::Route>     routes;
+    };
+    using SGIndex = vector<SchemeGraph>::size_type;
     using RouteIndex = vector<Graph::Route>::size_type;
     using Power = uint32_t;
 
@@ -16,18 +22,29 @@ public:
     Scheme(const Scheme&) = delete;
     Scheme& operator= (const Scheme&) = delete;
 
+    Graph& getGraph(SGIndex i)
+    { return schemeGraphs_[i].graph; }
+
+    vector<Graph::NodeIndex>& getStats(SGIndex i)
+    { return schemeGraphs_[i].stations; }
+
+    vector<Graph::NodeIndex>& getSates(SGIndex i)
+    { return schemeGraphs_[i].satellites; }
+
+    vector<Graph::Route>& getRoutes(SGIndex i)
+    { return schemeGraphs_[i].routes; }
+
     void solve();
 
-    vector<::Route> getRouteVec();
+    vector<::Route> parseRoutes();
 
 private:
-    vector<Graph> graphs_;
-    vector<vector<Graph::NodeIndex>> stations_;
-    vector<vector<Graph::NodeIndex>> satellites_;
+
+    vector<SchemeGraph> schemeGraphs_;
     uint32_t coeff_;
     Graph::Dist limit_;
     Power site_;
-    vector<vector<Graph::Route>> routes_;
     
-    void solveConnected(GraphIndex graphIndex);
+    void solveConnected(SGIndex graphIndex);
+    // void samllModify(Dijkstra &djks);
 };

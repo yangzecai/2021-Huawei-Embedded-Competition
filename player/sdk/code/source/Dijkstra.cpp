@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Dijkstra::Dijkstra(Graph& graph, Graph::NodeIndex source) 
+Dijkstra::Dijkstra(Graph& graph, Graph::NodeIndex source/*, Graph::Dist dist*/) 
     : source_(source)
     , last_(graph.getOrder())
     , dists_(graph.getOrder(), Graph::Inf)

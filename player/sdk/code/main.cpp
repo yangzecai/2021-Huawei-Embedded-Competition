@@ -15,7 +15,9 @@ public:
     {
         Scheme s(N, C, D, PS, typeVec, edgeVec);
         s.solve();
-        return s.getRouteVec();
+        return s.parseRoutes();
+
+
         // vector<Route> retRouteVec;
 
         // vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
