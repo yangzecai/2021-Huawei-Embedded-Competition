@@ -21,10 +21,12 @@ public:
     using Route = vector<NodeIndex>;
     using AdjList = vector<vector<NodeIndex>>;
     using AdjMatrix = vector<vector<Dist>>;
+    using Color = uint32_t;
 
-    static const Dist Inf;
+    static const Dist kInf;
 
-    Graph();
+    Graph(vector<NodeId> nodes = vector<NodeId>(),
+          vector<Edge> edges = vector<Edge>());
     ~Graph();
 
     Graph(const Graph&) = delete;
@@ -37,7 +39,7 @@ public:
 
     static std::vector<Graph> getConnectedGraphVec(uint32_t N,
                                                    const vector<::Edge>& edgeVec);
-
+    
     void addNode(const NodeId &node);
     void addNode(NodeId&& node);
     const vector<NodeId>& getNodes() const 
@@ -53,25 +55,38 @@ public:
     size_t getOrder() const
     { return nodes_.size(); }
 
-    const AdjList& getAdjList();
-    const AdjMatrix& getAdjMatrix();
+    size_t getMaxDegree() const;
 
-    void displayNodesId() const;  // for debug
-    void displayAdjList();         // for debug
-    void displayAdjListId();      // for debug
-    // void drawAdjMatrix() const;   // for debug
+    const AdjList& getAdjList() const;
+    const AdjList& getAdjListSorted() const;
+    const AdjMatrix& getAdjMatrix() const;
+    const vector<Color>& getColors() const;
+
+    Graph getGraphBar() const;
+    Graph getScopeGraph(Dist limit) const;
+
+    void displayNodesId() const;    // for debug
+    void displayAdjList() const;    // for debug
+    void displayAdjListId() const;  // for debug
+    void displayColors() const;     // for debug
 
 private:
     vector<NodeId> nodes_;
     vector<Edge> edges_;
 
-    bool isAdjListNew_;
-    AdjList adjList_;
+    mutable bool isAdjListNew_;
+    mutable AdjList adjList_;
 
-    bool isAdjMatrixNew_;
-    AdjMatrix adjMatrix_;
+    mutable bool isAdjMatrixNew_;
+    mutable AdjMatrix adjMatrix_;
 
-    void updateAdjList();
-    void updateAdjMatrix();
+    mutable bool isColorsNew_;
+    mutable vector<Color> colors_;
+
+    void updateAdjList() const;
+    void updateAdjMatrix() const;
+    void updateColors() const;
+
+    void sortAdjList();
 };
 

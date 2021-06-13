@@ -13,27 +13,29 @@ public:
     vector<Route> Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
                        const vector<bool>& typeVec, const vector<Edge>& edgeVec)
     {
-        Scheme s(N, C, D, PS, typeVec, edgeVec);
-        s.solve();
-        return s.parseRoutes();
+        // Scheme s(N, C, D, PS, typeVec, edgeVec);
+        // s.solve();
+        // return s.parseRoutes();
 
 
-        // vector<Route> retRouteVec;
+        vector<Route> retRouteVec;
 
-        // vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
-        // std::cout << graphVec.size() << std::endl;
+        vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
+        std::cout << graphVec.size() << std::endl;
 
-        // for(Graph& g : graphVec) {
+        for(Graph& g : graphVec) {
             
-        //     g.getAdjList();
-        //     g.getAdjMatrix();
-        //     g.displayAdjList();
-        //     g.displayAdjListId();
-        //     g.displayNodesId();
-        //     Dijkstra s(g, 0);
-        //     s.displayDists();
-        //     s.displayRoute();
-        // }
+            g.getAdjList();
+            g.getAdjMatrix();
+            g.displayAdjList();
+            g.displayAdjListId();
+            g.displayNodesId();
+            g.displayColors();
+            // Dijkstra s(g, 0, 5);
+            // s.displayDists();
+            // s.displayRoute();
+            // s.displayReached();
+        }
         // ***建议选手在这里加入自己的处理代码***
 
         // 结果输出到retRouteVec中，如下面6行，每行输出一条路径：
@@ -44,7 +46,7 @@ public:
         // retRouteVec.push_back({9, 4, 3, 1});
         // retRouteVec.push_back({10, 4, 3, 1});
 
-        // return retRouteVec;
+        return retRouteVec;
     }
 };
 

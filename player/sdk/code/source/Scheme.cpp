@@ -43,7 +43,7 @@ void Scheme::solveConnected(SGIndex sgIndex)
 {
     assert(schemeGraphs_.size() > sgIndex);
 
-    Graph& graph = getGraph(sgIndex);
+    const Graph& graph = getGraph(sgIndex);
     const vector<Graph::NodeIndex>& stations = getStats(sgIndex);
     const vector<Graph::NodeIndex>& satellites = getSates(sgIndex);
 

@@ -2,18 +2,22 @@
 #include "UnionFindSet.h"
 
 #include <unordered_map>
+#include <algorithm>
+#include <map>
 
 using namespace std;
 
-const Graph::Dist Graph::Inf = UINT32_MAX;
+const Graph::Dist Graph::kInf = UINT32_MAX;
 
-Graph::Graph() 
-    : nodes_()
-    , edges_() 
-    , isAdjListNew_(true)
+Graph::Graph(vector<NodeId> nodes, vector<Edge> edges) 
+    : nodes_(nodes)
+    , edges_(edges) 
+    , isAdjListNew_(false)
     , adjList_()
-    , isAdjMatrixNew_(true)
+    , isAdjMatrixNew_(false)
     , adjMatrix_()
+    , isColorsNew_(false)
+    , colors_()
 {
 }
 
@@ -33,6 +37,9 @@ void Graph::swap(Graph&& rhs)
 
     swap(this->isAdjMatrixNew_, rhs.isAdjMatrixNew_);
     swap(this->adjMatrix_, rhs.adjMatrix_);
+
+    swap(this->isColorsNew_, rhs.isColorsNew_);
+    swap(this->colors_, rhs.colors_);
 }
 
 Graph::Graph(Graph&& rhs)
@@ -42,6 +49,8 @@ Graph::Graph(Graph&& rhs)
     , adjList_(std::move(rhs.adjList_))
     , isAdjMatrixNew_(rhs.isAdjMatrixNew_)
     , adjMatrix_(std::move(rhs.adjMatrix_))
+    , isColorsNew_(rhs.isColorsNew_)
+    , colors_(std::move(rhs.colors_))
 {   
 }
 
@@ -94,6 +103,7 @@ void Graph::addNode(const NodeId &node)
 {
     isAdjListNew_ = false;
     isAdjMatrixNew_ = false;
+    isColorsNew_ = false;
     nodes_.push_back(node);
 }
 
@@ -101,6 +111,7 @@ void Graph::addNode(NodeId&& node)
 {
     isAdjListNew_ = false;
     isAdjMatrixNew_ = false;
+    isColorsNew_ = false;
     nodes_.push_back(std::move(node));
 }
 
@@ -108,6 +119,7 @@ void Graph::addEdge(const Edge &edge)
 {
     isAdjListNew_ = false;
     isAdjMatrixNew_ = false;
+    isColorsNew_ = false;
     edges_.push_back(edge);
 }
 
@@ -115,22 +127,48 @@ void Graph::addEdge(Edge&& edge)
 {
     isAdjListNew_ = false;
     isAdjMatrixNew_ = false;
+    isColorsNew_ = false;
     edges_.push_back(std::move(edge));
 }
 
-const Graph::AdjList& Graph::getAdjList() 
+size_t Graph::getMaxDegree() const
+{
+    updateAdjList();
+    size_t ret = 0;
+    for(auto& item : adjList_) {
+        ret = max(ret, item.size());
+    }
+    return ret;
+}
+
+const Graph::AdjList& Graph::getAdjList() const
 {
     updateAdjList();
     return adjList_;
 }
 
-const Graph::AdjMatrix& Graph::getAdjMatrix()
+const Graph::AdjList& Graph::getAdjListSorted() const
+{
+    updateAdjList();
+    for(auto& item : adjList_) {
+        sort(item.begin(), item.end());
+    }
+    return adjList_;
+}
+
+const Graph::AdjMatrix& Graph::getAdjMatrix() const
 {
     updateAdjMatrix();
     return adjMatrix_;
 }
 
-void Graph::updateAdjList() 
+const vector<Graph::Color>& Graph::getColors() const
+{
+    updateColors();
+    return colors_;
+}
+
+void Graph::updateAdjList() const
 {
     if(!isAdjListNew_) {
         adjList_ = AdjList(getOrder());
@@ -142,16 +180,57 @@ void Graph::updateAdjList()
     }
 }
 
-void Graph::updateAdjMatrix()
+void Graph::updateAdjMatrix() const
 {
     if(!isAdjMatrixNew_) {
-        adjMatrix_ = AdjMatrix(getOrder(), vector<Dist>(getOrder(), Inf));
+        adjMatrix_ = AdjMatrix(getOrder(), vector<Dist>(getOrder(), kInf));
+        for(NodeIndex i = 0; i < nodes_.size(); ++i) {
+            adjMatrix_[i][i] = 0;
+        }
         for(auto iter = edges_.begin(); iter != edges_.end(); ++iter) {
             adjMatrix_[iter->send][iter->recv] = iter->dist;
             adjMatrix_[iter->recv][iter->send] = iter->dist;
         }
         isAdjMatrixNew_ = true;
     }
+}
+
+void Graph::updateColors() const
+{
+    if(!isColorsNew_) {
+        colors_ = vector<Color>(getOrder());
+        size_t maxColor = getMaxDegree() + 1;
+        getAdjListSorted();
+
+        for(NodeIndex node = 0; node < colors_.size(); ++node) {
+
+            vector<bool> usedColor(maxColor, false);
+            for(NodeIndex adjNode : adjList_[node]) {
+                if(node > adjNode) {
+                    usedColor[colors_[adjNode]] = true;
+                } else {
+                    auto iter = find(usedColor.begin(), usedColor.end(), false);
+                    colors_[node] = iter - usedColor.begin();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+Graph Graph::getGraphBar() const 
+{
+    Graph retGraph(nodes_);
+
+    updateAdjMatrix();
+    for(NodeIndex i = 0; i < adjMatrix_.size(); ++i) {
+        for(NodeIndex j = i+1; j < adjMatrix_[0].size(); ++j) {
+            if(adjMatrix_[i][j] == kInf) {
+                retGraph.addEdge({i, j, 1});
+            }
+        }
+    }
+    return retGraph;
 }
 
 void Graph::displayNodesId() const
@@ -164,7 +243,7 @@ void Graph::displayNodesId() const
     cout << "--------------------------------" << endl;
 }
 
-void Graph::displayAdjList()
+void Graph::displayAdjList() const
 {
     updateAdjList();
     cout << "------------adjlist------------" << endl;
@@ -178,7 +257,7 @@ void Graph::displayAdjList()
     cout << "-------------------------------" << endl;
 }
 
-void Graph::displayAdjListId()
+void Graph::displayAdjListId() const
 {
     updateAdjList();
     cout << "-----------adjList_id----------" << endl;
@@ -190,4 +269,15 @@ void Graph::displayAdjListId()
         cout << endl;
     }
     cout << "-------------------------------" << endl;
+}
+
+void Graph::displayColors() const
+{
+    updateColors();
+    cout << "-------------colors--------------" << endl;
+    for(Color color : colors_) {
+        cout << color << " ";
+    }
+    cout << endl;
+    cout << "---------------------------------" << endl;
 }

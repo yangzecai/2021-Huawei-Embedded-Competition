@@ -8,7 +8,8 @@ class Graph;
 
 class Dijkstra {
 public:
-    Dijkstra(Graph& graph, Graph::NodeIndex source/*, Graph::Dist dist*/);
+    Dijkstra(const Graph& graph, Graph::NodeIndex source, 
+             Graph::Dist limit = Graph::kInf);
     ~Dijkstra();
 
     Dijkstra(const Dijkstra&) = delete;
@@ -19,15 +20,20 @@ public:
     Graph::Dist getDistSum(const vector<Graph::NodeIndex>&) const;
 
     Graph::Route getRoute(Graph::NodeIndex) const;
+    vector<Graph::Route> getRouteAll(vector<Graph::NodeIndex>&) const;
+
+    const vector<Graph::NodeIndex>& getReached() const
+    { return reached_; }
 
     vector<Graph::NodeIndex>& getLast()
     { return last_; }
 
     void displayDists() const; // for debug
     void displayRoute() const; // for debug
+    void displayReached() const; // for debug
 
 private:
-    Graph::NodeIndex    source_;
     vector<Graph::NodeIndex> last_;
     vector<Graph::Dist> dists_;
+    vector<Graph::NodeIndex> reached_;
 };

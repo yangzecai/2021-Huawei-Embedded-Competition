@@ -7,10 +7,11 @@
 
 using namespace std;
 
-Dijkstra::Dijkstra(Graph& graph, Graph::NodeIndex source/*, Graph::Dist dist*/) 
-    : source_(source)
-    , last_(graph.getOrder())
-    , dists_(graph.getOrder(), Graph::Inf)
+Dijkstra::Dijkstra(const Graph& graph, Graph::NodeIndex source, 
+                   Graph::Dist limit) 
+    : last_(graph.getOrder())
+    , dists_(graph.getOrder(), Graph::kInf)
+    , reached_()
 {
     assert(source < graph.getOrder());
 
@@ -34,11 +35,12 @@ Dijkstra::Dijkstra(Graph& graph, Graph::NodeIndex source/*, Graph::Dist dist*/)
             continue;
         }
         isVisited[from] = true;
+        reached_.push_back(from);
 
         for(Graph::NodeIndex to : adjList[from]) {
-            Graph::Dist dist = adjMatrix[from][to];
-            if(dists_[to] > dist + dists_[from]) {
-                dists_[to] = dist + dists_[from];
+            Graph::Dist newDist = adjMatrix[from][to] + dists_[from];
+            if(newDist <= limit && dists_[to] > newDist) {
+                dists_[to] = newDist;
                 last_[to] = from;
                 if(isVisited[to] == false) {
                     minHeap.push(make_pair(dists_[to], to));
@@ -56,6 +58,7 @@ Graph::Dist Dijkstra::getDistSum(const vector<Graph::NodeIndex>& nodes) const
 {
     Graph::Dist sum = 0;
     for(auto node : nodes) {
+        assert(getDist(node) != Graph::kInf);
         sum += getDist(node);
     }
     return sum;
@@ -89,4 +92,14 @@ void Dijkstra::displayRoute() const
         cout << last_[cur] << "->" << cur << endl;
     }
     cout << "-------------------------------" << endl;
+}
+
+void Dijkstra::displayReached() const
+{
+    cout << "-----------reached------------" << endl;
+    for(auto node : reached_) {
+        cout << node << " ";
+    }
+    cout << endl;
+    cout << "------------------------------" << endl;
 }
