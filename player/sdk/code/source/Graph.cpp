@@ -9,7 +9,7 @@ using namespace std;
 
 const Graph::Dist Graph::kInf = UINT32_MAX;
 
-Graph::Graph(vector<NodeId> nodes, vector<Edge> edges) 
+Graph::Graph(const vector<NodeId>& nodes, const vector<Edge>& edges) 
     : nodes_(nodes)
     , edges_(edges) 
     , isAdjListNew_(false)

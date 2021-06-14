@@ -17,7 +17,6 @@ public:
         // s.solve();
         // return s.parseRoutes();
 
-
         vector<Route> retRouteVec;
 
         vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
@@ -36,18 +35,17 @@ public:
             // s.displayRoute();
             // s.displayReached();
         }
-        // ***建议选手在这里加入自己的处理代码***
-
-        // 结果输出到retRouteVec中，如下面6行，每行输出一条路径：
-        // retRouteVec.push_back({5, 2, 0});
-        // retRouteVec.push_back({6, 2, 0});
-        // retRouteVec.push_back({7, 3, 2, 0});
-        // retRouteVec.push_back({8, 3, 2, 0});
-        // retRouteVec.push_back({9, 4, 3, 1});
-        // retRouteVec.push_back({10, 4, 3, 1});
 
         return retRouteVec;
     }
+
+    vector<Route> parseRoute(vector<Graph::NodeId>) {
+
+    }
+
+private:
+    vector<Graph> graphVec_;
+
 };
 
 int main(int argc, char *argv[])

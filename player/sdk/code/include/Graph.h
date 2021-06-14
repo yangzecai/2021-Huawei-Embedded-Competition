@@ -25,8 +25,8 @@ public:
 
     static const Dist kInf;
 
-    Graph(vector<NodeId> nodes = vector<NodeId>(),
-          vector<Edge> edges = vector<Edge>());
+    Graph(const vector<NodeId>& nodes = vector<NodeId>(),
+          const vector<Edge>& edges = vector<Edge>());
     ~Graph();
 
     Graph(const Graph&) = delete;
@@ -34,7 +34,7 @@ public:
 
     void swap(Graph&& rhs);
 
-    Graph(Graph&& rhs);
+    Graph(Graph&& rhs);                 //move
     Graph& operator= (Graph&& rhs);
 
     static std::vector<Graph> getConnectedGraphVec(uint32_t N,
@@ -63,7 +63,6 @@ public:
     const vector<Color>& getColors() const;
 
     Graph getGraphBar() const;
-    Graph getScopeGraph(Dist limit) const;
 
     void displayNodesId() const;    // for debug
     void displayAdjList() const;    // for debug
