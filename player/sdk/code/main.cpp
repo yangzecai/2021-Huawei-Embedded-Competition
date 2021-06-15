@@ -4,7 +4,9 @@
 #include "data.h"
 #include "Graph.h"
 #include "Dijkstra.h"
-#include "Scheme.h"
+// #include "Scheme.h"
+#include "DisJointSet.h"
+#include "Solution.h"
 
 using namespace std;
 
@@ -17,35 +19,14 @@ public:
         // s.solve();
         // return s.parseRoutes();
 
+        // my::Solution solu(N, C, D, PS, typeVec, edgeVec);
+        // solu.test();
+
+        ::Graph<my::Node>::kInf;
+
         vector<Route> retRouteVec;
-
-        vector<Graph> graphVec = Graph::getConnectedGraphVec(N, edgeVec);
-        std::cout << graphVec.size() << std::endl;
-
-        for(Graph& g : graphVec) {
-            
-            g.getAdjList();
-            g.getAdjMatrix();
-            g.displayAdjList();
-            g.displayAdjListId();
-            g.displayNodesId();
-            g.displayColors();
-            // Dijkstra s(g, 0, 5);
-            // s.displayDists();
-            // s.displayRoute();
-            // s.displayReached();
-        }
-
         return retRouteVec;
     }
-
-    vector<Route> parseRoute(vector<Graph::NodeId>) {
-
-    }
-
-private:
-    vector<Graph> graphVec_;
-
 };
 
 int main(int argc, char *argv[])

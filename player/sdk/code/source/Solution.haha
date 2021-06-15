@@ -1,0 +1,91 @@
+// #include "Solution.h"
+// #include "DisJointSet.h"
+// #include "Dijkstra.h"
+
+// #include <unordered_map>
+
+// namespace my {
+
+// Solution::Solution(uint32_t C, uint32_t D, uint32_t PS,
+//                  const vector<Node>& nodes, const vector<Edge>& edges)
+//     : graph_(nodes, edges)
+//     , coeff_(C)
+//     , limit_(D)
+//     , site_(PS)
+//     , bases_()
+//     , sates_()
+// {
+//     for(Graph::NodeIndex i = 0; i < nodes.size(); ++i) {
+//         if(nodes[i].isSate) {
+//             sates_.push_back(i);
+//         } else {
+//             bases_.push_back(i);
+//         }
+//     }
+// }
+
+// Solution::Solution(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
+//                    const vector<bool>& typeVec, const vector<::Edge>& edgeVec)
+//     : graph_()
+//     , coeff_(C)
+//     , limit_(D)
+//     , site_(PS)
+//     , bases_()
+//     , sates_()
+// {
+//     Solution solu(C, D, PS);
+    
+//     for(Graph::NodeIndex i = 0; i < N; ++i) {
+//         solu.graph_.addNode(Node{static_cast<Node::ID>(i), typeVec[i], i});
+//     }
+    
+//     for(::Edge edge : edgeVec) {
+//         solu.graph_.addEdge(Edge{edge.send, edge.dist, edge.dist});
+//     }
+
+//     for(Graph::NodeIndex i = 0; i < N; ++i) {
+//         if(graph_.getNode(i).isSate) {
+//             sates_.push_back(i);
+//         } else {
+//             bases_.push_back(i);
+//         }
+//     }
+// }
+
+
+// void Solution::swap(Solution &&rhs)
+// {
+//     using std::swap;
+//     swap(this->graph_, rhs.graph_);
+//     swap(this->bases_, rhs.bases_);
+//     swap(this->sates_, rhs.sates_);
+// }
+
+// Solution::Solution(Solution &&rhs)
+//     : graph_(std::move(rhs.graph_))
+//     , coeff_(rhs.coeff_)
+//     , limit_(rhs.limit_)
+//     , site_(rhs.site_)
+//     , bases_(std::move(rhs.bases_))
+//     , sates_(std::move(rhs.sates_))
+// {
+// }
+
+// Solution& Solution::operator= (Solution &&rhs)
+// {
+//     swap(std::move(rhs));
+//     return *this;
+// }
+
+// void Solution::test(void)
+// {
+//     Dijkstra<Graph> shortPath(graph_);
+//     vector<Graph::Dist> dists (std::move(shortPath(0)));
+//     cout << "-----------------dist-----------------" << endl;
+//     for(auto dist : dists) {
+//         cout << dist << endl;
+//     }
+//     cout << "--------------------------------------" << endl;
+// }
+
+// }   // namespace my

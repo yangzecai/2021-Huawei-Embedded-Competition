@@ -2,9 +2,9 @@
 
 #include <vector>
 
-class UnionFindSet {
+class DisJointSet {
 public:
-    explicit UnionFindSet(size_t num) 
+    explicit DisJointSet(size_t num) 
         : parents_(std::vector<size_t>(num)) 
         , ranks_(std::vector<size_t>(num, 0))
     {
@@ -13,8 +13,8 @@ public:
         }
     }
 
-    UnionFindSet(const UnionFindSet&) = delete;
-    UnionFindSet(UnionFindSet&&) = delete;
+    DisJointSet(const DisJointSet&) = delete;
+    DisJointSet(DisJointSet&&) = delete;
     
     size_t find(size_t x) 
     {
