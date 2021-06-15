@@ -26,7 +26,7 @@ public:
     using AdjMatrix = vector<vector<Dist>>;
     using Color = uint32_t;
 
-    static const Dist kInf{UINT32_MAX};
+    static const Dist kInf;
 
     Graph(const vector<Node> &nodes = vector<Node>(),
           const vector<Edge> &edges = vector<Edge>());
@@ -99,6 +99,9 @@ private:
 /*************************************define************************************/
 
 // namespace my {
+
+template<typename Node>
+const typename Graph<Node>::Dist Graph<Node>::kInf = UINT32_MAX;
 
 template<typename Node>
 Graph<Node>::Graph(const vector<Node> &nodes, 

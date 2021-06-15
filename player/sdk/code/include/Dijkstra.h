@@ -1,46 +1,9 @@
 #pragma once
 
-// #include "Graph.h"
-
 #include <queue>
 #include <vector>
 
 #include <assert.h>
-
-// class Dijkstra {
-// public:
-
-//     template<typename Node>
-//     Dijkstra(const Graph<Node>& graph, 
-//              typename Graph<Node>::NodeIndex source, 
-//              typename Graph<Node>::Dist limit = Graph<Node>::kInf);
-//     ~Dijkstra();
-
-//     Dijkstra(const Dijkstra&) = delete;
-//     Dijkstra& operator= (const Dijkstra&) = delete;
-
-//     Graph::Dist getDist(const Graph::NodeIndex node) const
-//     { return dists_[node]; }
-//     Graph::Dist getDistSum(const vector<Graph::NodeIndex>&) const;
-
-//     Graph::Route getRoute(Graph::NodeIndex) const;
-//     vector<Graph::Route> getRouteAll(vector<Graph::NodeIndex>&) const;
-
-//     const vector<Graph::NodeIndex>& getReached() const
-//     { return reached_; }
-
-//     vector<Graph::NodeIndex>& getLast()
-//     { return last_; }
-
-//     void displayDists() const; // for debug
-//     void displayRoute() const; // for debug
-//     void displayReached() const; // for debug
-
-// private:
-//     vector<Graph::NodeIndex> last_;
-//     vector<Graph::Dist> dists_;
-//     vector<Graph::NodeIndex> reached_;
-// };
 
 // namespace my {
 
@@ -91,7 +54,7 @@ Dijkstra<Graph>::Dijkstra(const Graph &graph,
     , last_(last)
     , monLast_(last_.begin() != unused_.begin())
     , reached_(reached)
-    , monReached_(last_.begin() != unused_.begin())
+    , monReached_(reached.begin() != unused_.begin())
 {
 }
 
