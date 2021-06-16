@@ -59,7 +59,12 @@ public:
     size_t getOrder() const
     { return nodes_.size(); }
 
+    size_t getDegree(NodeIndex i) const
+    { updateAdjList(); return adjList_[i].size(); }
     size_t getMaxDegree() const;
+
+    Dist getDist(NodeIndex i, NodeIndex j) const
+    { updateAdjMatrix(); return adjMatrix_[i][j]; }
 
     const AdjList& getAdjList() const;
     const AdjList& getAdjListSorted() const;

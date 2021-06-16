@@ -3,6 +3,7 @@
 #include "Dijkstra.h"
 
 #include <unordered_map>
+#include <set>
 
 namespace my {
 
@@ -134,6 +135,21 @@ void Solution::test(void)
     cout << "--------------------------------------" << endl;
 }
 
+void Solution::genPath(Graph::NodeIndex source, vector<Graph::NodeIndex> dests) 
+{
+    vector<Graph::NodeIndex> path(graph_.getOrder(), graph_.getOrder());
+    Dijkstra<Graph> d(graph_, limit_, path);
+    d(source);
+    for(Graph::NodeIndex node : dests) {
+        while(path[node] != node) {
+            assert(path[node] < graph_.getOrder());
+            lasts_[node] = path[node];
+            node = lasts_[node];
+        }
+        lasts_[node] = node;
+    }
+}
+
 vector<::Route> Solution::PlanA()
 {
     vector<::Route> retRouteVec;
@@ -143,7 +159,20 @@ vector<::Route> Solution::PlanA()
         Solution subSolu(coeff_, limit_, site_, 
                          graph.getNodes(), graph.getEdges());
         
-        Graph::NodeIndex centre = subSolu.sates_[0];
+        Graph::NodeIndex centre = 0;
+        Graph::Dist minSum = Graph::kInf;
+
+        Dijkstra<Graph> d1(subSolu.graph_);
+        for(Graph::NodeIndex sate : subSolu.sates_) {
+            vector<Graph::Dist> dists(d1(sate));
+            Graph::Dist sum = 0;
+            for_each(dists.begin(), dists.end(), [&sum](Graph::Dist dist)
+                                                      { sum += dist; });
+            if(minSum > sum) {
+                minSum = sum;
+                centre = sate;
+            }
+        }
 
         Dijkstra<Graph> shortPath(subSolu.graph_, Graph::kInf, 
                                   subSolu.lasts_);                    
@@ -157,6 +186,67 @@ vector<::Route> Solution::PlanA()
     }
 
     return retRouteVec;
+}
+
+vector<::Route> Solution::PlanB()
+{
+    // bGraph : 当且仅当卫星和基站存在 长度小于最大路径的路 时 之间有连线
+    Graph bGraph(graph_.getNodes(), vector<Graph::Edge>());  
+
+    // 构造 bGraph
+    vector<Graph::NodeIndex> reached;
+    Dijkstra<Graph> d1(graph_, limit_, Dijkstra<Graph>::unused_, reached);
+    for(auto sate : sates_) {
+        vector<Graph::Dist> dists(d1(sate));
+        for(Graph::NodeIndex node : reached) {
+            if(!bGraph.getNode(node).isSate) {
+                bGraph.addEdge(Graph::Edge{sate, node, dists[node]});
+            }
+        }
+        reached.clear();
+    }
+
+    set<Graph::NodeIndex> uncoverBases(bases_.begin(), bases_.end());
+    const Graph::AdjList &bAdjList = bGraph.getAdjList();
+    while(!uncoverBases.empty()) {
+        Graph::NodeIndex bestSate = bGraph.getOrder();
+        Graph::Dist bestSumDist = Graph::kInf;
+        size_t bestCoverNum = 0;
+        vector<Graph::NodeIndex> bestCover;
+
+        for(Graph::NodeIndex sate : sates_) {
+            Graph::Dist curSumDist = 0;
+            size_t curCoverNum = 0;
+            vector<Graph::NodeIndex> curCover;
+            const vector<Graph::NodeIndex>& adjBases = bAdjList[sate];
+            for(Graph::NodeIndex base : adjBases) {
+                if(uncoverBases.find(base) != uncoverBases.end()) {
+                    ++curCoverNum;
+                    curSumDist += bGraph.getDist(sate, base);
+                    curCover.push_back(base);
+                }
+            }
+            if((curCoverNum > bestCoverNum) ||  // 覆盖的基地最多
+               (curCoverNum == bestCoverNum &&  // 覆盖的基地同样多
+                curCoverNum != 0 &&    
+                curSumDist < bestSumDist)) {    // 但总路径短
+
+                bestSate = sate;
+                bestCoverNum = curCoverNum;
+                bestSumDist = curSumDist;
+                bestCover = std::move(curCover);
+            }
+        }
+
+        genPath(bestSate, bestCover);
+        for(Graph::NodeIndex base : bestCover) {
+            uncoverBases.erase(base);
+        }
+    }
+
+    meetCondition();
+
+    return parseLasts();
 }
 
 }   // namespace my

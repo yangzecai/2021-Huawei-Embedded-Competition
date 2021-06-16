@@ -45,9 +45,10 @@ public:
 
     void test(void);
 
-    /***********************************PlanA*************************************/
-    vector<::Route> PlanA();
+    void genPath(Graph::NodeIndex source, vector<Graph::NodeIndex> dests);
 
+    vector<::Route> PlanA();
+    vector<::Route> PlanB();
 
 private:
     Graph graph_;

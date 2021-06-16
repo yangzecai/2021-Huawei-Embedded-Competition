@@ -15,7 +15,7 @@ public:
     {
 
         my::Solution solu(N, C, D, PS, typeVec, edgeVec);
-        return solu.PlanA();
+        return solu.PlanB();
 
         // vector<Route> retRouteVec;
         // return retRouteVec;

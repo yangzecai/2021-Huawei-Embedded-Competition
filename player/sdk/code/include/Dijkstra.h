@@ -10,6 +10,8 @@
 template <class Graph>
 class Dijkstra {
 public:
+    static vector<typename Graph::NodeIndex> unused_;
+
     Dijkstra(const Graph &graph, 
              typename Graph::Dist limit = Graph::kInf,
              vector<typename Graph::NodeIndex> &last = unused_, 
@@ -28,8 +30,6 @@ private:
     const bool monLast_;
     vector<typename Graph::NodeIndex> &reached_;
     const bool monReached_;
-
-    static vector<typename Graph::NodeIndex> unused_;
 
 };  // class Dijkstra
 
@@ -54,7 +54,7 @@ Dijkstra<Graph>::Dijkstra(const Graph &graph,
     , last_(last)
     , monLast_(last_.begin() != unused_.begin())
     , reached_(reached)
-    , monReached_(reached.begin() != unused_.begin())
+    , monReached_(&reached_ != &unused_)
 {
 }
 
