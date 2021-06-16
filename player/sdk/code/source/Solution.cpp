@@ -213,6 +213,7 @@ vector<::Route> Solution::PlanB()
         Graph::Dist bestSumDist = Graph::kInf;
         size_t bestCoverNum = 0;
         vector<Graph::NodeIndex> bestCover;
+        uint32_t bestWeight = UINT32_MAX;
 
         for(Graph::NodeIndex sate : sates_) {
             Graph::Dist curSumDist = 0;
@@ -226,16 +227,27 @@ vector<::Route> Solution::PlanB()
                     curCover.push_back(base);
                 }
             }
-            if((curCoverNum > bestCoverNum) ||  // 覆盖的基地最多
-               (curCoverNum == bestCoverNum &&  // 覆盖的基地同样多
-                curCoverNum != 0 &&    
-                curSumDist < bestSumDist)) {    // 但总路径短
 
-                bestSate = sate;
-                bestCoverNum = curCoverNum;
-                bestSumDist = curSumDist;
-                bestCover = std::move(curCover);
+            if(curCoverNum != 0) {
+                uint32_t curWeight = (coeff_ * curSumDist + site_) / curCoverNum;
+                if(curWeight < bestWeight) {
+                    bestWeight = curWeight;
+                    bestSate = sate;
+                    bestCoverNum = curCoverNum;
+                    bestSumDist = curSumDist;
+                    bestCover = std::move(curCover);
+                }
             }
+            // if((curCoverNum > bestCoverNum) ||  // 覆盖的基地最多
+            //    (curCoverNum == bestCoverNum &&  // 覆盖的基地同样多
+            //     curCoverNum != 0 &&    
+            //     curSumDist < bestSumDist)) {    // 但总路径短
+
+            //     bestSate = sate;
+            //     bestCoverNum = curCoverNum;
+            //     bestSumDist = curSumDist;
+            //     bestCover = std::move(curCover);
+            // }
         }
 
         genPath(bestSate, bestCover);
