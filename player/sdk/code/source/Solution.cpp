@@ -208,13 +208,14 @@ vector<::Route> Solution::PlanB()
 
     set<Graph::NodeIndex> uncoverBases(bases_.begin(), bases_.end());
     const Graph::AdjList &bAdjList = bGraph.getAdjList();
+    set<Graph::NodeIndex> bestSateSet;
     while(!uncoverBases.empty()) {
         Graph::NodeIndex bestSate = bGraph.getOrder();
+        
         Graph::Dist bestSumDist = Graph::kInf;
         size_t bestCoverNum = 0;
         vector<Graph::NodeIndex> bestCover;
         uint32_t bestWeight = UINT32_MAX;
-
         for(Graph::NodeIndex sate : sates_) {
             Graph::Dist curSumDist = 0;
             size_t curCoverNum = 0;
@@ -249,11 +250,25 @@ vector<::Route> Solution::PlanB()
             //     bestCover = std::move(curCover);
             // }
         }
-
-        genPath(bestSate, bestCover);
+        bestSateSet.insert(bestSate);
         for(Graph::NodeIndex base : bestCover) {
             uncoverBases.erase(base);
         }
+    }
+    
+    for(Graph::NodeIndex base : bases_) {
+        Graph::Dist bestDist = Graph::kInf;
+        Graph::NodeIndex bestSate = bGraph.getOrder();
+        for(Graph::NodeIndex sate : bAdjList[base]) {
+            if(bestSateSet.find(sate) != bestSateSet.end()) {
+                Graph::Dist curDist = bGraph.getDist(base, sate);
+                if(curDist < bestDist) {
+                    bestDist = curDist;
+                    bestSate = sate;
+                }
+            }
+        }
+        genPath(bestSate, vector<Graph::NodeIndex>{base});
     }
 
     meetCondition();
