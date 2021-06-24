@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 #include "data.h"
 #include "Graph.h"
@@ -15,10 +16,10 @@ public:
     {
 
         my::Solution solu(N, C, D, PS, typeVec, edgeVec);
-        return solu.PlanB();
-
-        // vector<Route> retRouteVec;
-        // return retRouteVec;
+        // return solu.PlanB();
+        solu.test();
+        vector<Route> retRouteVec;
+        return retRouteVec;
     }
 };
 
@@ -32,18 +33,20 @@ int main(int argc, char *argv[])
     vector<bool> typeVec;   // 下标为i的值代表ID为i的站点身份，卫星为true，发射基站为false
     vector<Edge> edgeVec;   // 包含E条边
 
-    cin >> N >> E >> C >> D >> PS;
+    std::fstream fin;
+    fin.open("/home/yangzecai/Projects/huawei/player/judge/cases/TestData_24.case", std::ios::in);
+    fin >> N >> E >> C >> D >> PS;
     typeVec = vector<bool>(N);
     for (uint32_t i = 0; i < N; i++) {
         bool type;
-        cin >> type;
+        fin >> type;
         typeVec[i] = type;
     }
     edgeVec = vector<Edge>(E);
     for (auto& edge : edgeVec) {
-        cin >> edge.send >> edge.recv >> edge.dist;
+        fin >> edge.send >> edge.recv >> edge.dist;
     }
-
+    fin.close();
     Solution solution;
     vector<Route> retRouteVec = solution.Plan(N, C, D, PS, typeVec, edgeVec);
     for (const auto& route : retRouteVec) {
