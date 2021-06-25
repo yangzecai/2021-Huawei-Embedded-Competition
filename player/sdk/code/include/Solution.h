@@ -140,6 +140,7 @@ public:
     void updatePhers();
     void updateDeltaPhers(const Ant &ant);
     void displayCurValue(); // for debug
+    set<Graph::NodeIndex> getBestSets();
 
 private:
     Solution *solu_;

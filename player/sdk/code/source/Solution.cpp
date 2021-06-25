@@ -201,8 +201,6 @@ vector<::Route> Solution::PlanB()
     while(!uncoverBases.empty()) {
         Graph::NodeIndex bestSate = bGraph_.getOrder();
         
-        Graph::Dist bestSumDist = Graph::kInf;
-        size_t bestCoverNum = 0;
         vector<Graph::NodeIndex> bestCover;
         uint32_t bestWeight = UINT32_MAX;
         for(Graph::NodeIndex sate : sates_) {
@@ -223,8 +221,6 @@ vector<::Route> Solution::PlanB()
                 if(curWeight < bestWeight) {
                     bestWeight = curWeight;
                     bestSate = sate;
-                    bestCoverNum = curCoverNum;
-                    bestSumDist = curSumDist;
                     bestCover = std::move(curCover);
                 }
             }
@@ -257,17 +253,41 @@ vector<::Route> Solution::PlanB()
 
 vector<::Route> Solution::PlanC()
 {
+    AntAlgorithm antColony(this, 1, 7, 0.5, 1, 10);
+    antColony.iterate(100);
+    set<Graph::NodeIndex> bestSateSet = antColony.getBestSets();
 
+    const Graph::AdjList &bAdjList = bGraph_.getAdjList();
+    for(Graph::NodeIndex base : bases_) {
+        Graph::Dist bestDist = Graph::kInf;
+        Graph::NodeIndex bestSate = bGraph_.getOrder();
+        for(Graph::NodeIndex sate : bAdjList[base]) {
+            if(bestSateSet.find(sate) != bestSateSet.end()) {
+                Graph::Dist curDist = bGraph_.getDist(base, sate);
+                if(curDist < bestDist) {
+                    bestDist = curDist;
+                    bestSate = sate;
+                }
+            }
+        }
+        genPath(bestSate, vector<Graph::NodeIndex>{base});
+    }
+
+    meetCondition();
+
+    return parseLasts();
 }
 
 void Solution::test(void)
 {
-    AntAlgorithm test(this, 1, 7, 0.1, 2, 1);
+    AntAlgorithm test(this, 1, 7, 0.5, 1, 100);
     test.displayCurValue();
     for(int i = 0; i < 100; ++i) {
         test.iterate(1);
         test.displayCurValue();
     }
+    // test.iterate(100);
+    // test.displayCurValue();
 }
 
 /*************************************************/
@@ -322,6 +342,15 @@ void AntAlgorithm::displayCurValue()
     cout << ant.getCount() << endl;
 }
 
+set<Graph::NodeIndex> AntAlgorithm::getBestSets()
+{
+    Ant ant(solu_, phers_, 1, 0, Q_);
+    ant.test();
+    set<Graph::NodeIndex> sets(ant.getSets());
+    
+    return sets;
+}
+
 AntAlgorithm::Ant::Ant(Solution *solu, const vector<double> &envPhers,
                        uint8_t alpha, uint8_t beta, uint8_t Q)
     : solu_(solu)
@@ -356,11 +385,34 @@ void AntAlgorithm::Ant::test()
     genPher();
 }
 
-void AntAlgorithm::Ant::selectRandSet()
+void AntAlgorithm::Ant::selectRandSet() // FIXME
 {
+    // assert(probs_.empty());
+    
+    // for(Graph::NodeIndex sate : unusedSates_) {
+    //     probs_.push_back(make_pair(sate, calProb(sate)));
+    // }
+    // normProbs();
+    // Graph::NodeIndex sate = roulette();
+    // unusedSates_.erase(sate);
+    // retSets_.insert(sate);
+    // for(Graph::NodeIndex base : solu_->bGraph_.getAdjList()[sate]) {
+    //     if(uncoverBases_.find(base) != uncoverBases_.end()) {
+    //         uncoverBases_.erase(base);
+    //     }
+    // }
+    // probs_.clear();
+
     assert(probs_.empty());
     
-    for(Graph::NodeIndex sate : unusedSates_) {
+    size_t index = rand() % uncoverBases_.size();
+    auto iter = uncoverBases_.begin();
+    for(size_t i = 0; i < index; ++i) {
+        ++iter;
+    }
+    Graph::NodeIndex base = *iter;
+
+    for(Graph::NodeIndex sate : solu_->bGraph_.getAdjList()[base]) {
         probs_.push_back(make_pair(sate, calProb(sate)));
     }
     normProbs();
@@ -375,7 +427,7 @@ void AntAlgorithm::Ant::selectRandSet()
     probs_.clear();
 }
 
-void AntAlgorithm::Ant::selectBestSet()
+void AntAlgorithm::Ant::selectBestSet() //FIXME
 {
     assert(probs_.empty());
     Graph::NodeIndex bestSate;
@@ -394,10 +446,36 @@ void AntAlgorithm::Ant::selectBestSet()
             uncoverBases_.erase(base);
         }
     }
-    probs_.clear();
+
+    // assert(probs_.empty());
+
+    // size_t index = rand() % uncoverBases_.size();
+    // auto iter = uncoverBases_.begin();
+    // for(size_t i = 0; i < index; ++i) {
+    //     ++iter;
+    // }
+    // Graph::NodeIndex base = *iter;
+
+    // Graph::NodeIndex bestSate;
+    // double bestProb = 0;
+    // for(Graph::NodeIndex sate : solu_->bGraph_.getAdjList()[base]) {
+    //     double curProb = calProb(sate);
+    //     if(curProb > bestProb) {
+    //         bestSate = sate;
+    //         bestProb = curProb;
+    //     } 
+    // }
+    
+    // unusedSates_.erase(bestSate);
+    // retSets_.insert(bestSate);
+    // for(Graph::NodeIndex base : solu_->bGraph_.getAdjList()[bestSate]) {
+    //     if(uncoverBases_.find(base) != uncoverBases_.end()) {
+    //         uncoverBases_.erase(base);
+    //     }
+    // }
 }
 
-double AntAlgorithm::Ant::calProb(Graph::NodeIndex sate) 
+double AntAlgorithm::Ant::calProb(Graph::NodeIndex sate) // FIXME
 {
     assert(unusedSates_.find(sate) != unusedSates_.end());
 
@@ -423,7 +501,7 @@ double AntAlgorithm::Ant::calProb(Graph::NodeIndex sate)
 
 void AntAlgorithm::Ant::normProbs()
 {
-    float sum = 0;
+    double sum = 0;
     for(PBP p : probs_) {
         sum += p.second;
     }
@@ -436,19 +514,20 @@ Graph::NodeIndex AntAlgorithm::Ant::roulette()
 {
     assert(!probs_.empty());
 
-    float randNum = (double) rand() / RAND_MAX;
+    double randNum = (double) rand() / RAND_MAX;
 
-    float cur = 0;
+    double cur = 0;
     for(PBP prob : probs_) {
         cur += prob.second;
         if(cur >= randNum) {
             return prob.first;
         }
     }
+    assert(0);
     return (Graph::NodeIndex)solu_->bGraph_.getOrder();
 }
 
-void AntAlgorithm::Ant::genPher()
+void AntAlgorithm::Ant::genPher()   // FIXME
 {
     uint32_t pher = 0;
     
