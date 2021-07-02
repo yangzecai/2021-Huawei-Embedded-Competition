@@ -5,23 +5,19 @@
 
 #include <assert.h>
 
-// namespace my {
-
-template <class Graph>
-class Dijkstra {
+template <class Graph> class Dijkstra {
 public:
     static vector<typename Graph::NodeIndex> unused_;
 
-    Dijkstra(const Graph &graph, 
-             typename Graph::Dist limit = Graph::kInf,
-             vector<typename Graph::NodeIndex> &last = unused_, 
+    Dijkstra(const Graph &graph, typename Graph::Dist limit = Graph::kInf,
+             vector<typename Graph::NodeIndex> &last = unused_,
              vector<typename Graph::NodeIndex> &reached = unused_);
     ~Dijkstra() = default;
 
-    Dijkstra(const Dijkstra&) = delete;
-    Dijkstra& operator= (const Dijkstra&) = delete;
+    Dijkstra(const Dijkstra &) = delete;
+    Dijkstra &operator=(const Dijkstra &) = delete;
 
-    vector<typename Graph::Dist> operator() (typename Graph::NodeIndex source);
+    vector<typename Graph::Dist> operator()(typename Graph::NodeIndex source);
 
 private:
     const Graph &graph_;
@@ -31,23 +27,16 @@ private:
     vector<typename Graph::NodeIndex> &reached_;
     const bool monReached_;
 
-};  // class Dijkstra
-
-// }   // namespace my
-
-
+}; // class Dijkstra
 
 /*************************************define*************************************/
 
-// namespace my {
-
-template<class Graph>
+template <class Graph>
 vector<typename Graph::NodeIndex> Dijkstra<Graph>::unused_;
 
-template<class Graph>
-Dijkstra<Graph>::Dijkstra(const Graph &graph, 
-                          typename Graph::Dist limit, 
-                          vector<typename Graph::NodeIndex> &last, 
+template <class Graph>
+Dijkstra<Graph>::Dijkstra(const Graph &graph, typename Graph::Dist limit,
+                          vector<typename Graph::NodeIndex> &last,
                           vector<typename Graph::NodeIndex> &reached)
     : graph_(graph)
     , limit_(limit)
@@ -58,9 +47,9 @@ Dijkstra<Graph>::Dijkstra(const Graph &graph,
 {
 }
 
-template<class Graph>
-vector<typename Graph::Dist> Dijkstra<Graph>::operator() (
-                    typename Graph::NodeIndex source)
+template <class Graph>
+vector<typename Graph::Dist>
+Dijkstra<Graph>::operator()(typename Graph::NodeIndex source)
 {
     assert(source < graph_.getOrder());
     assert(!monLast_ || last_.size() == graph_.getOrder());
@@ -71,40 +60,40 @@ vector<typename Graph::Dist> Dijkstra<Graph>::operator() (
     const typename Graph::AdjList &adjList(graph_.getAdjList());
     const typename Graph::AdjMatrix &adjMatrix(graph_.getAdjMatrix());
 
-    if(monReached_) {
+    if (monReached_) {
         reached_.reserve(graph_.getOrder());
     }
     vector<bool> isVisited(adjList.size(), false);
     using PDI = pair<typename Graph::Dist, typename Graph::NodeIndex>;
     priority_queue<PDI, vector<PDI>, greater<PDI>> minHeap;
-    
-    if(monLast_) {
+
+    if (monLast_) {
         last_[source] = source;
     }
     dists[source] = 0;
     minHeap.push(make_pair(0, source));
-    
-    while(!minHeap.empty()) {
+
+    while (!minHeap.empty()) {
 
         PDI top = minHeap.top();
         minHeap.pop();
         typename Graph::NodeIndex from = top.second;
-        if(isVisited[from]) {
+        if (isVisited[from]) {
             continue;
         }
         isVisited[from] = true;
-        if(monReached_) {
+        if (monReached_) {
             reached_.push_back(from);
         }
 
-        for(typename Graph::NodeIndex to : adjList[from]) {
+        for (typename Graph::NodeIndex to : adjList[from]) {
             typename Graph::Dist newDist = adjMatrix[from][to] + dists[from];
-            if(newDist <= limit_ && dists[to] > newDist) {
+            if (newDist <= limit_ && dists[to] > newDist) {
                 dists[to] = newDist;
-                if(monLast_) {
+                if (monLast_) {
                     last_[to] = from;
                 }
-                if(isVisited[to] == false) {
+                if (isVisited[to] == false) {
                     minHeap.push(make_pair(dists[to], to));
                 }
             }
@@ -112,5 +101,3 @@ vector<typename Graph::Dist> Dijkstra<Graph>::operator() (
     }
     return dists;
 }
-
-// }   //namespace my

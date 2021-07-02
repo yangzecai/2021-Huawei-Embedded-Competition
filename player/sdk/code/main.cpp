@@ -3,25 +3,9 @@
 #include <fstream>
 
 #include "data.h"
-#include "Graph.h"
-#include "Dijkstra.h"
 #include "Solution.h"
 
 using namespace std;
-
-class Solution {
-public:
-    vector<Route> Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
-                       const vector<bool>& typeVec, const vector<Edge>& edgeVec)
-    {
-
-        my::Solution solu(N, C, D, PS, typeVec, edgeVec);
-        return solu.PlanC();
-        // solu.test();
-        // vector<Route> retRouteVec;
-        // return retRouteVec;
-    }
-};
 
 int main(int argc, char *argv[])
 {

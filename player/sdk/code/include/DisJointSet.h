@@ -4,19 +4,19 @@
 
 class DisJointSet {
 public:
-    explicit DisJointSet(size_t num) 
-        : parents_(std::vector<size_t>(num)) 
+    explicit DisJointSet(size_t num)
+        : parents_(std::vector<size_t>(num))
         , ranks_(std::vector<size_t>(num, 0))
     {
-        for(size_t i = 0; i < num; ++i) {
+        for (size_t i = 0; i < num; ++i) {
             parents_[i] = i;
         }
     }
 
-    DisJointSet(const DisJointSet&) = delete;
-    DisJointSet(DisJointSet&&) = delete;
-    
-    size_t find(size_t x) 
+    DisJointSet(const DisJointSet &) = delete;
+    DisJointSet(DisJointSet &&) = delete;
+
+    size_t find(size_t x)
     {
         return x == parents_[x] ? x : (parents_[x] = find(parents_[x]));
     }
