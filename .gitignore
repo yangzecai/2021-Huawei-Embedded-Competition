@@ -4,6 +4,8 @@ player/judge/log/*
 player/judge/solu/*
 player/sdk/bin/*
 player/sdk/build/*
+player/core
 .vscode/*
 player/Embedded-2021.zip
+unused/*
 
