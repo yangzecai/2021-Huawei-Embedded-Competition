@@ -9,35 +9,55 @@ vector<Route> Solution::Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
 {
     initGlobalData(N, C, D, PS, typeVec, edgeVec);
     initMemData();
-    
-    ACO antColony(1, 7, 0.5, 1, 10);
-    antColony.iterate(100);
-    set<SateGraph::NodeIndex> bestSateSet = antColony.getBestSets();
 
-    const SateGraph::AdjList &bAdjList = bGraph.getAdjList();
-    for (SateGraph::NodeIndex base : baseSubset) {
-        SateGraph::Dist bestDist = SateGraph::kInf;
-        SateGraph::NodeIndex bestSate = bGraph.getOrder();
-        for (SateGraph::NodeIndex sate : bAdjList[base]) {
-            if (bestSateSet.find(sate) != bestSateSet.end()) {
-                SateGraph::Dist curDist = bGraph.getDist(base, sate);
-                if (curDist < bestDist) {
-                    bestDist = curDist;
-                    bestSate = sate;
-                }
-            }
-        }
-        routeParser_.createRoute(bestSate, vector<SateGraph::NodeIndex>{base});
-    }
+    ACO antColony(1, 7, 0.5, 1, 10);
+    antColony.iterate(200);
+    minRecvSateSet_ = antColony.getMinRecvSateSet();
+    connBaseFromSet();
     routeParser_.trimRoute();
     return routeParser_.getRoute();
 }
 
-void Solution::initMemData() 
-{ 
+Power Solution::getMinPowerSum()
+{
+    Power minPowerSum = 0;
+    for (SateGraph::NodeIndex base : baseSubset) {
+        SateGraph::NodeIndex sate = getNearRecvSateFromSet(base);
+        minPowerSum += bGraph.getDist(sate, base);
+    }
+    minPowerSum *= kPowerPerDist;
+    minPowerSum += kPowerPerSite * minRecvSateSet_.size();
+    return minPowerSum;
+}
+
+void Solution::connBaseFromSet()
+{
+    for (SateGraph::NodeIndex base : baseSubset) {
+        SateGraph::NodeIndex sate = getNearRecvSateFromSet(base);
+        routeParser_.createRoute(sate, vector<SateGraph::NodeIndex>{base});
+    }
+}
+
+SateGraph::NodeIndex Solution::getNearRecvSateFromSet(SateGraph::NodeIndex base)
+{
+    SateGraph::Dist bestDist = SateGraph::kInf;
+    SateGraph::NodeIndex bestSate = bGraph.getOrder();
+    for (SateGraph::NodeIndex sate : bGraph.getAdjList()[base]) {
+        if (minRecvSateSet_.find(sate) != minRecvSateSet_.end()) {
+            SateGraph::Dist curDist = bGraph.getDist(base, sate);
+            if (curDist < bestDist) {
+                bestDist = curDist;
+                bestSate = sate;
+            }
+        }
+    }
+    return bestSate;
+}
+
+void Solution::initMemData()
+{
     assert(aGraph.getOrder() != 0);
     routeParser_ = RouteParser(aGraph);
-
 }
 
 void Solution::initGlobalData(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
@@ -103,16 +123,4 @@ void Solution::initBGraph()
         }
         reached.clear();
     }
-}
-
-void Solution::test(void)
-{
-    ACO test(1, 7, 0.5, 1, 100);
-    test.displayCurValue();
-    for (int i = 0; i < 100; ++i) {
-        test.iterate(1);
-        test.displayCurValue();
-    }
-    // test.iterate(100);
-    // test.displayCurValue();
 }

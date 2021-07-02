@@ -1,8 +1,8 @@
 #pragma once
 
 #include "data.h"
-#include <set>
 #include <assert.h>
+#include <set>
 
 using std::set;
 
@@ -15,30 +15,39 @@ public:
     Ant &operator=(const Ant &) = delete;
 
     void run();
-    void test();
-    void selectRandSet();
-    void selectBestSet();
-    SateGraph::NodeIndex roulette();
-    double calProb(SateGraph::NodeIndex);
-    void normProbs();
-    void genPher();
+
     double getPher() const { return pher_; }
-    uint32_t getCount() const { return count_; }
-    const set<SateGraph::NodeIndex> &getSets() const { return retSets_; }
-    void displaySets(); // for debug
+    uint32_t getPowerSum() const { return powerSum_; }
+    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    {
+        return minRecvSateSet_;
+    }
 
 private:
     const vector<double> &envPhers_;
-    set<SateGraph::NodeIndex> retSets_;
+    set<SateGraph::NodeIndex> minRecvSateSet_;
     set<SateGraph::NodeIndex> unusedSates_;
     set<SateGraph::NodeIndex> uncoverBases_;
-    using PBP = pair<SateGraph::NodeIndex, double>;
-    vector<PBP> probs_;
     const uint8_t alpha_;
     const uint8_t beta_;
     const uint8_t Q_;
     double pher_;
-    uint32_t count_;
+    Power powerSum_;
+
+    struct Choice {
+        SateGraph::NodeIndex sate;
+        double probability;
+        size_t coverNum;
+        Power powerSum;
+    };
+
+    void selectRandRecvSate(SateGraph::NodeIndex base);
+    SateGraph::NodeIndex getRandUncoverBase();
+    Choice getChoice(SateGraph::NodeIndex sate);
+    void normProbs(vector<Choice> &choices);
+    const Choice &roulette(const vector<Choice> &choices);
+    void determineChoice(const Choice &choice);
+    void producePher();
 }; // class Ant
 
 class ACO {
@@ -46,13 +55,12 @@ public:
     ACO(uint8_t alpha, uint8_t beta, float rho, uint8_t Q, uint16_t antNum);
     ~ACO() = default;
 
-    vector<Ant> createAnts(uint32_t num);
     void iterate(uint16_t iterNum);
-    void setAntNum(uint16_t antNum) { antNum_ = antNum; }
-    void updatePhers();
-    void updateDeltaPhers(const Ant &ant);
-    void displayCurValue(); // for debug
-    set<SateGraph::NodeIndex> getBestSets();
+    Power getMinPowerSum() const { return minPowerSum_; }
+    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    {
+        return minRecvSateSet_;
+    }
 
 private:
     vector<double> phers_;
@@ -62,4 +70,10 @@ private:
     float rho_;
     uint8_t Q_;
     uint16_t antNum_;
+    Power minPowerSum_;
+    set<SateGraph::NodeIndex> minRecvSateSet_;
+
+    void setAntNum(uint16_t antNum) { antNum_ = antNum; }
+    void updatePhers();
+    void updateDeltaPhers(const Ant &ant);
 }; // class ACO

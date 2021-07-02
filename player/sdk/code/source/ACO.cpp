@@ -3,15 +3,14 @@
 
 Ant::Ant(const vector<double> &envPhers, uint8_t alpha, uint8_t beta, uint8_t Q)
     : envPhers_(envPhers)
-    , retSets_()
+    , minRecvSateSet_()
     , unusedSates_(sateSubset.begin(), sateSubset.end())
     , uncoverBases_(baseSubset.begin(), baseSubset.end())
-    , probs_()
     , alpha_(alpha)
     , beta_(beta)
     , Q_(Q)
     , pher_(0)
-    , count_(0)
+    , powerSum_(0)
 {
 }
 
@@ -19,68 +18,46 @@ void Ant::run()
 {
     assert(!uncoverBases_.empty());
     while (!uncoverBases_.empty()) {
-        selectRandSet();
+        SateGraph::NodeIndex base = getRandUncoverBase();
+        selectRandRecvSate(base);
     }
-    genPher();
+    producePher();
 }
 
-void Ant::test()
+SateGraph::NodeIndex Ant::getRandUncoverBase()
 {
-    assert(!uncoverBases_.empty());
-    while (!uncoverBases_.empty()) {
-        selectBestSet();
-    }
-    genPher();
-}
-
-void Ant::selectRandSet() // FIXME
-{
-    assert(probs_.empty());
-
     size_t index = rand() % uncoverBases_.size();
     auto iter = uncoverBases_.begin();
     for (size_t i = 0; i < index; ++i) {
         ++iter;
     }
-    SateGraph::NodeIndex base = *iter;
-
-    for (SateGraph::NodeIndex sate : bGraph.getAdjList()[base]) {
-        probs_.push_back(make_pair(sate, calProb(sate)));
-    }
-    normProbs();
-    SateGraph::NodeIndex sate = roulette();
-    unusedSates_.erase(sate);
-    retSets_.insert(sate);
-    for (SateGraph::NodeIndex base : bGraph.getAdjList()[sate]) {
-        if (uncoverBases_.find(base) != uncoverBases_.end()) {
-            uncoverBases_.erase(base);
-        }
-    }
-    probs_.clear();
+    return *iter;
 }
 
-void Ant::selectBestSet() // FIXME
+void Ant::selectRandRecvSate(SateGraph::NodeIndex base) // FIXME
 {
-    assert(probs_.empty());
-    SateGraph::NodeIndex bestSate;
-    double bestProb = 0;
-    for (SateGraph::NodeIndex sate : unusedSates_) {
-        double curProb = calProb(sate);
-        if (curProb > bestProb) {
-            bestProb = curProb;
-            bestSate = sate;
-        }
+    vector<Choice> choices;
+    for (SateGraph::NodeIndex sate : bGraph.getAdjList()[base]) {
+        choices.push_back(getChoice(sate));
     }
-    unusedSates_.erase(bestSate);
-    retSets_.insert(bestSate);
-    for (SateGraph::NodeIndex base : bGraph.getAdjList()[bestSate]) {
+    normProbs(choices);
+    const Choice &choice = roulette(choices);
+    determineChoice(choice);
+}
+
+void Ant::determineChoice(const Choice &choice)
+{
+    unusedSates_.erase(choice.sate);
+    minRecvSateSet_.insert(choice.sate);
+    for (SateGraph::NodeIndex base : bGraph.getAdjList()[choice.sate]) {
         if (uncoverBases_.find(base) != uncoverBases_.end()) {
             uncoverBases_.erase(base);
         }
     }
+    powerSum_ += choice.powerSum;
 }
 
-double Ant::calProb(SateGraph::NodeIndex sate) // FIXME
+Ant::Choice Ant::getChoice(SateGraph::NodeIndex sate) // FIXME
 {
     assert(unusedSates_.find(sate) != unusedSates_.end());
 
@@ -93,54 +70,50 @@ double Ant::calProb(SateGraph::NodeIndex sate) // FIXME
             sumDist += bGraph.getDist(sate, base);
         }
     }
-
-    float p = 0; // FIXME
+    Power powerSum = kPowerPerDist * sumDist + kPowerPerSite;
+    double probability = 0;
     if (coverNum != 0) {
         double t = envPhers_[sate];
-        double n = (double)coverNum / (kPowerPerDist * sumDist + kPowerPerSite);
-        p = pow(t, alpha_) + pow(n, beta_);
+        double n = (double)coverNum / powerSum;
+        probability = pow(t, alpha_) + pow(n, beta_);
     }
-
-    return p;
+    return Choice{sate, probability, coverNum, powerSum};
 }
 
-void Ant::normProbs()
+void Ant::normProbs(vector<Choice> &choices)
 {
     double sum = 0;
-    for (PBP p : probs_) {
-        sum += p.second;
+    for (Choice &choice : choices) {
+        sum += choice.probability;
     }
-    for (PBP &p : probs_) {
-        p.second /= sum;
+    for (Choice &choice : choices) {
+        choice.probability /= sum;
     }
 }
 
-SateGraph::NodeIndex Ant::roulette()
+const Ant::Choice &Ant::roulette(const vector<Choice> &choices)
 {
-    assert(!probs_.empty());
-
     double randNum = (double)rand() / RAND_MAX;
 
     double cur = 0;
-    for (PBP prob : probs_) {
-        cur += prob.second;
+    for (const Choice &choice : choices) {
+        cur += choice.probability;
         if (cur >= randNum) {
-            return prob.first;
+            return choice;
         }
     }
     assert(0);
-    return (SateGraph::NodeIndex)bGraph.getOrder();
 }
 
-void Ant::genPher() // FIXME
+void Ant::producePher() // FIXME
 {
+    // pher_ = (double) Q_ / powerSum_;
     uint32_t pher = 0;
-
     const SateGraph::AdjList &bAdjList = bGraph.getAdjList();
     for (SateGraph::NodeIndex base : baseSubset) {
         SateGraph::Dist bestDist = SateGraph::kInf;
         for (SateGraph::NodeIndex sate : bAdjList[base]) {
-            if (retSets_.find(sate) != retSets_.end()) {
+            if (minRecvSateSet_.find(sate) != minRecvSateSet_.end()) {
                 SateGraph::Dist curDist = bGraph.getDist(base, sate);
                 if (curDist < bestDist) {
                     bestDist = curDist;
@@ -150,18 +123,8 @@ void Ant::genPher() // FIXME
         pher += bestDist;
     }
     pher *= kPowerPerDist;
-    pher += kPowerPerSite * retSets_.size();
-    count_ = pher;
+    pher += kPowerPerSite * minRecvSateSet_.size();
     pher_ = (double)Q_ / pher; // FIXME
-}
-
-void Ant::displaySets()
-{
-    cout << "-----------sets-----------" << endl;
-    for (SateGraph::NodeIndex sate : getSets()) {
-        cout << sate << endl;
-    }
-    cout << "--------------------------" << endl;
 }
 
 ACO::ACO(uint8_t alpha, uint8_t beta, float rho, uint8_t Q,
@@ -173,6 +136,8 @@ ACO::ACO(uint8_t alpha, uint8_t beta, float rho, uint8_t Q,
     , rho_(rho)
     , Q_(Q)
     , antNum_(antNum)
+    , minPowerSum_(SateGraph::kInf)
+    , minRecvSateSet_()
 {
 }
 
@@ -183,6 +148,10 @@ void ACO::iterate(uint16_t iterNum)
             Ant ant(phers_, alpha_, beta_, Q_);
             ant.run();
             updateDeltaPhers(ant);
+            if(ant.getPowerSum() < minPowerSum_) {
+                minRecvSateSet_ = ant.getMinRecvSateSet();
+                minPowerSum_ = ant.getPowerSum();
+            }
         }
         updatePhers();
     }
@@ -190,7 +159,7 @@ void ACO::iterate(uint16_t iterNum)
 
 void ACO::updateDeltaPhers(const Ant &ant)
 {
-    for (SateGraph::NodeIndex sate : ant.getSets()) {
+    for (SateGraph::NodeIndex sate : ant.getMinRecvSateSet()) {
         deltaPhers_[sate] += ant.getPher();
     }
 }
@@ -202,21 +171,4 @@ void ACO::updatePhers()
         phers_[sate] += deltaPhers_[sate];
     }
     deltaPhers_ = vector<double>(bGraph.getOrder(), 0);
-}
-
-void ACO::displayCurValue()
-{
-    Ant ant(phers_, 1, 0, Q_);
-    ant.test();
-
-    cout << ant.getCount() << endl;
-}
-
-set<SateGraph::NodeIndex> ACO::getBestSets()
-{
-    Ant ant(phers_, 1, 0, Q_);
-    ant.test();
-    set<SateGraph::NodeIndex> sets(ant.getSets());
-
-    return sets;
 }
