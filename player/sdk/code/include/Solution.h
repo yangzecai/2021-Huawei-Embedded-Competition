@@ -22,8 +22,6 @@ public:
                        const vector<bool> &typeVec,
                        const vector<Edge> &edgeVec);
     void connBaseFromSet();
-    SateGraph::NodeIndex getNearRecvSateFromSet(SateGraph::NodeIndex base);
-    Power getMinPowerSum(); // for debug
 private:
     RouteParser routeParser_;
     set<SateGraph::NodeIndex> minRecvSateSet_;

@@ -8,7 +8,7 @@ using std::set;
 
 class Ant {
 public:
-    Ant(const vector<double> &envPhers, uint8_t alpha, uint8_t beta, uint8_t Q);
+    Ant(const vector<double> &envPhers, double alpha, double beta);
     ~Ant() = default;
 
     Ant(const Ant &) = delete;
@@ -17,27 +17,24 @@ public:
     void run();
 
     double getPher() const { return pher_; }
-    uint32_t getPowerSum() const { return powerSum_; }
-    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    const set<SateGraph::NodeIndex> &getRecvSateSet() const
     {
-        return minRecvSateSet_;
+        return recvSateSet_;
     }
 
 private:
     const vector<double> &envPhers_;
-    set<SateGraph::NodeIndex> minRecvSateSet_;
+    set<SateGraph::NodeIndex> recvSateSet_;
     set<SateGraph::NodeIndex> unusedSates_;
     set<SateGraph::NodeIndex> uncoverBases_;
     const uint8_t alpha_;
     const uint8_t beta_;
-    const uint8_t Q_;
     double pher_;
-    Power powerSum_;
 
     struct Choice {
         SateGraph::NodeIndex sate;
         double probability;
-        size_t coverNum;
+        size_t newCoverNum;
         Power powerSum;
     };
 
@@ -53,7 +50,7 @@ private:
 
 class ACO {
 public:
-    ACO(uint8_t alpha, uint8_t beta, float rho, uint8_t Q, uint16_t antNum);
+    ACO(double alpha, double beta, double rho, double epsilon, uint16_t antNum);
     ~ACO() = default;
 
     void iterate(uint16_t iterNum);
@@ -64,17 +61,18 @@ public:
     }
 
 private:
+    const double alpha_;
+    const double beta_;
+    const double rho_;
+    const double epsilon_;
+    const uint8_t antNum_;
+    double maxPher_;
+    double minPher_;
     vector<double> phers_;
     vector<double> deltaPhers_;
-    uint8_t alpha_;
-    uint8_t beta_;
-    float rho_;
-    uint8_t Q_;
-    uint16_t antNum_;
     Power minPowerSum_;
     set<SateGraph::NodeIndex> minRecvSateSet_;
 
-    void setAntNum(uint16_t antNum) { antNum_ = antNum; }
     void updatePhers();
-    void updateDeltaPhers(const Ant &ant);
+    void updateDeltaPhers();
 }; // class ACO
