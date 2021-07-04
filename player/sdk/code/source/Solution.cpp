@@ -42,15 +42,23 @@ SateGraph::NodeIndex Solution::getNearRecvSateFromSet(SateGraph::NodeIndex base)
 {
     SateGraph::Dist bestDist = SateGraph::kInf;
     SateGraph::NodeIndex bestSate = bGraph.getOrder();
-    for (SateGraph::NodeIndex sate : bGraph.getAdjList()[base]) {
-        if (minRecvSateSet_.find(sate) != minRecvSateSet_.end()) {
-            SateGraph::Dist curDist = bGraph.getDist(base, sate);
-            if (curDist < bestDist) {
-                bestDist = curDist;
-                bestSate = sate;
-            }
+
+    for (SateGraph::NodeIndex sate : minRecvSateSet_) {
+        SateGraph::Dist curDist = bGraph.getDist(sate, base);
+        if(curDist < bestDist) {
+            bestDist = curDist;
+            bestSate = sate;
         }
     }
+    // for (SateGraph::NodeIndex sate : bGraph.getAdjList()[base]) {
+    //     if (minRecvSateSet_.find(sate) != minRecvSateSet_.end()) {
+    //         SateGraph::Dist curDist = bGraph.getDist(base, sate);
+    //         if (curDist < bestDist) {
+    //             bestDist = curDist;
+    //             bestSate = sate;
+    //         }
+    //     }
+    // }
     return bestSate;
 }
 

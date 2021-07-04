@@ -18,14 +18,14 @@ public:
 
     double getPher() const { return pher_; }
     uint32_t getPowerSum() const { return powerSum_; }
-    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    const vector<SateGraph::NodeIndex> &getMinRecvSateSet() const
     {
         return minRecvSateSet_;
     }
 
 private:
     const vector<double> &envPhers_;
-    set<SateGraph::NodeIndex> minRecvSateSet_;
+    vector<SateGraph::NodeIndex> minRecvSateSet_;
     set<SateGraph::NodeIndex> unusedSates_;
     set<SateGraph::NodeIndex> uncoverBases_;
     const uint8_t alpha_;
@@ -57,7 +57,7 @@ public:
 
     void iterate(uint16_t iterNum);
     Power getMinPowerSum() const { return minPowerSum_; }
-    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    const vector<SateGraph::NodeIndex> &getMinRecvSateSet() const
     {
         return minRecvSateSet_;
     }
@@ -71,7 +71,7 @@ private:
     uint8_t Q_;
     uint16_t antNum_;
     Power minPowerSum_;
-    set<SateGraph::NodeIndex> minRecvSateSet_;
+    vector<SateGraph::NodeIndex> minRecvSateSet_;
 
     void setAntNum(uint16_t antNum) { antNum_ = antNum; }
     void updatePhers();

@@ -26,7 +26,7 @@ public:
     Power getMinPowerSum(); // for debug
 private:
     RouteParser routeParser_;
-    set<SateGraph::NodeIndex> minRecvSateSet_;
+    vector<SateGraph::NodeIndex> minRecvSateSet_;
 
     void initMemData();
     void initGlobalData(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,

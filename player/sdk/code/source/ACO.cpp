@@ -48,7 +48,7 @@ void Ant::selectRandRecvSate(SateGraph::NodeIndex base) // FIXME
 void Ant::determineChoice(const Choice &choice)
 {
     unusedSates_.erase(choice.sate);
-    minRecvSateSet_.insert(choice.sate);
+    minRecvSateSet_.push_back(choice.sate);
     for (SateGraph::NodeIndex base : bGraph.getAdjList()[choice.sate]) {
         if (uncoverBases_.find(base) != uncoverBases_.end()) {
             uncoverBases_.erase(base);
@@ -107,24 +107,24 @@ const Ant::Choice &Ant::roulette(const vector<Choice> &choices)
 
 void Ant::producePher() // FIXME
 {
-    // pher_ = (double) Q_ / powerSum_;
-    uint32_t pher = 0;
-    const SateGraph::AdjList &bAdjList = bGraph.getAdjList();
-    for (SateGraph::NodeIndex base : baseSubset) {
-        SateGraph::Dist bestDist = SateGraph::kInf;
-        for (SateGraph::NodeIndex sate : bAdjList[base]) {
-            if (minRecvSateSet_.find(sate) != minRecvSateSet_.end()) {
-                SateGraph::Dist curDist = bGraph.getDist(base, sate);
-                if (curDist < bestDist) {
-                    bestDist = curDist;
-                }
-            }
-        }
-        pher += bestDist;
-    }
-    pher *= kPowerPerDist;
-    pher += kPowerPerSite * minRecvSateSet_.size();
-    pher_ = (double)Q_ / pher; // FIXME
+    pher_ = (double) Q_ / powerSum_;
+    // uint32_t pher = 0;
+    // const SateGraph::AdjList &bAdjList = bGraph.getAdjList();
+    // for (SateGraph::NodeIndex base : baseSubset) {
+    //     SateGraph::Dist bestDist = SateGraph::kInf;
+    //     for (SateGraph::NodeIndex sate : bAdjList[base]) {
+    //         if (minRecvSateSet_.find(sate) != minRecvSateSet_.end()) {
+    //             SateGraph::Dist curDist = bGraph.getDist(base, sate);
+    //             if (curDist < bestDist) {
+    //                 bestDist = curDist;
+    //             }
+    //         }
+    //     }
+    //     pher += bestDist;
+    // }
+    // pher *= kPowerPerDist;
+    // pher += kPowerPerSite * minRecvSateSet_.size();
+    // pher_ = (double)Q_ / pher; // FIXME
 }
 
 ACO::ACO(uint8_t alpha, uint8_t beta, float rho, uint8_t Q,
