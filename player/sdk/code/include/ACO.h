@@ -18,14 +18,14 @@ public:
 
     double getPher() const { return pher_; }
     uint32_t getPowerSum() const { return powerSum_; }
-    const vector<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
     {
         return minRecvSateSet_;
     }
 
 private:
     const vector<double> &envPhers_;
-    vector<SateGraph::NodeIndex> minRecvSateSet_;
+    set<SateGraph::NodeIndex> minRecvSateSet_;
     set<SateGraph::NodeIndex> unusedSates_;
     set<SateGraph::NodeIndex> uncoverBases_;
     const uint8_t alpha_;
@@ -48,6 +48,7 @@ private:
     const Choice &roulette(const vector<Choice> &choices);
     void determineChoice(const Choice &choice);
     void producePher();
+    void localSearch();
 }; // class Ant
 
 class ACO {
@@ -57,7 +58,7 @@ public:
 
     void iterate(uint16_t iterNum);
     Power getMinPowerSum() const { return minPowerSum_; }
-    const vector<SateGraph::NodeIndex> &getMinRecvSateSet() const
+    const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
     {
         return minRecvSateSet_;
     }
@@ -71,7 +72,7 @@ private:
     uint8_t Q_;
     uint16_t antNum_;
     Power minPowerSum_;
-    vector<SateGraph::NodeIndex> minRecvSateSet_;
+    set<SateGraph::NodeIndex> minRecvSateSet_;
 
     void setAntNum(uint16_t antNum) { antNum_ = antNum; }
     void updatePhers();

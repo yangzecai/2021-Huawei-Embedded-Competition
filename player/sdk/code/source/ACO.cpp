@@ -21,7 +21,37 @@ void Ant::run()
         SateGraph::NodeIndex base = getRandUncoverBase();
         selectRandRecvSate(base);
     }
+    localSearch();
     producePher();
+}
+
+void Ant::localSearch()
+{
+    vector<size_t> coverCnts(bGraph.getOrder(), 0);
+    for (auto sate : minRecvSateSet_) {
+        for (auto base : bGraph.getAdjList()[sate]) {
+            ++coverCnts[base];
+        }
+    }
+    for (auto iter = minRecvSateSet_.begin(); iter != minRecvSateSet_.end(); ) {
+        auto sate = *iter;
+        bool isRedundant = true;
+        for (auto base : bGraph.getAdjList()[sate]) {
+            assert(coverCnts[base] > 0);
+            if (coverCnts[base] == 1) {
+                isRedundant = false;
+                break;
+            }
+        }
+        if (isRedundant) {
+            for (auto base : bGraph.getAdjList()[sate]) {
+                --coverCnts[base];
+            }
+            minRecvSateSet_.erase(iter++);
+        } else {
+            ++iter;
+        }
+    }
 }
 
 SateGraph::NodeIndex Ant::getRandUncoverBase()
@@ -48,7 +78,7 @@ void Ant::selectRandRecvSate(SateGraph::NodeIndex base) // FIXME
 void Ant::determineChoice(const Choice &choice)
 {
     unusedSates_.erase(choice.sate);
-    minRecvSateSet_.push_back(choice.sate);
+    minRecvSateSet_.insert(choice.sate);
     for (SateGraph::NodeIndex base : bGraph.getAdjList()[choice.sate]) {
         if (uncoverBases_.find(base) != uncoverBases_.end()) {
             uncoverBases_.erase(base);
@@ -107,7 +137,10 @@ const Ant::Choice &Ant::roulette(const vector<Choice> &choices)
 
 void Ant::producePher() // FIXME
 {
-    pher_ = (double) Q_ / powerSum_;
+    pher_ = (double) 1 / minRecvSateSet_.size();
+
+    //pher_ = (double)Q_ / powerSum_;
+
     // uint32_t pher = 0;
     // const SateGraph::AdjList &bAdjList = bGraph.getAdjList();
     // for (SateGraph::NodeIndex base : baseSubset) {
@@ -148,7 +181,7 @@ void ACO::iterate(uint16_t iterNum)
             Ant ant(phers_, alpha_, beta_, Q_);
             ant.run();
             updateDeltaPhers(ant);
-            if(ant.getPowerSum() < minPowerSum_) {
+            if (ant.getPowerSum() < minPowerSum_) {
                 minRecvSateSet_ = ant.getMinRecvSateSet();
                 minPowerSum_ = ant.getPowerSum();
             }
