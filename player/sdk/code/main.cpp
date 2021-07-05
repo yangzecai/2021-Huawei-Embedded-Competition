@@ -17,8 +17,6 @@ int main(int argc, char *argv[])
     vector<bool> typeVec;   // 下标为i的值代表ID为i的站点身份，卫星为true，发射基站为false
     vector<Edge> edgeVec;   // 包含E条边
 
-    // std::fstream fin;
-    // fin.open("/home/yangzecai/Projects/huawei/player/judge/cases/TestData_24.case", std::ios::in);
     cin >> N >> E >> C >> D >> PS;
     typeVec = vector<bool>(N);
     for (uint32_t i = 0; i < N; i++) {
@@ -30,7 +28,7 @@ int main(int argc, char *argv[])
     for (auto& edge : edgeVec) {
         cin >> edge.send >> edge.recv >> edge.dist;
     }
-    // fin.close();
+
     Solution solution;
     vector<Route> retRouteVec = solution.Plan(N, C, D, PS, typeVec, edgeVec);
     for (const auto& route : retRouteVec) {

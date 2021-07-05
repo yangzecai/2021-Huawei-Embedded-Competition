@@ -10,12 +10,13 @@ vector<Route> Solution::Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
     initGlobalData(N, C, D, PS, typeVec, edgeVec);
     initMemData();
 
-    ACO antColony(1, 20, 0.5, 0.001, 10);
-    antColony.iterate(200);
-    // for (int i = 0; i < 400; ++i) {
+    ACO antColony(1, 20, 0.5, 0.0001, 10);
+    antColony.iterate(150);
+    // for (int i = 0; i < 150; ++i) {
     //     antColony.iterate(1);
     //     minRecvSateSet_ = antColony.getMinRecvSateSet();
-    //     cout << antColony.getMinPowerSum() << endl;
+    //     cout << antColony.getMinPowerSum()
+    //          << " size : " << antColony.getMinRecvSateSet().size() << endl;
     // }
     minRecvSateSet_ = antColony.getMinRecvSateSet();
     connBaseFromSet();

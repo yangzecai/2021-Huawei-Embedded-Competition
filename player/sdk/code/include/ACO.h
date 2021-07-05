@@ -16,7 +16,6 @@ public:
 
     void run();
 
-    double getPher() const { return pher_; }
     const set<SateGraph::NodeIndex> &getRecvSateSet() const
     {
         return recvSateSet_;
@@ -29,7 +28,6 @@ private:
     set<SateGraph::NodeIndex> uncoverBases_;
     const uint8_t alpha_;
     const uint8_t beta_;
-    double pher_;
 
     struct Choice {
         SateGraph::NodeIndex sate;
@@ -38,8 +36,11 @@ private:
         Power powerSum;
     };
 
-    void selectRandRecvSate(SateGraph::NodeIndex base);
-    SateGraph::NodeIndex getRandUncoverBase();
+    void selectRecvSate(SateGraph::NodeIndex base);
+    SateGraph::NodeIndex getRandUncoverBase()
+    {
+        return getRandElemFromSet<SateGraph::NodeIndex>(uncoverBases_);
+    }
     Choice getChoice(SateGraph::NodeIndex sate);
     void normProbs(vector<Choice> &choices);
     const Choice &roulette(const vector<Choice> &choices);

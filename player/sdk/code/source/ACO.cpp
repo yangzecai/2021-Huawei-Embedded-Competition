@@ -8,7 +8,6 @@ Ant::Ant(const vector<double> &envPhers, double alpha, double beta)
     , uncoverBases_(baseSubset.begin(), baseSubset.end())
     , alpha_(alpha)
     , beta_(beta)
-    , pher_(0)
 {
 }
 
@@ -17,25 +16,14 @@ void Ant::run()
     assert(!uncoverBases_.empty());
     while (!uncoverBases_.empty()) {
         SateGraph::NodeIndex base = getRandUncoverBase();
-        selectRandRecvSate(base);
+        selectRecvSate(base);
     }
     localSearch();
-    producePher();
 }
 
 void Ant::localSearch() { removeRedundantSate(recvSateSet_); }
 
-SateGraph::NodeIndex Ant::getRandUncoverBase()
-{
-    size_t index = rand() % uncoverBases_.size();
-    auto iter = uncoverBases_.begin();
-    for (size_t i = 0; i < index; ++i) {
-        ++iter;
-    }
-    return *iter;
-}
-
-void Ant::selectRandRecvSate(SateGraph::NodeIndex base) // FIXME
+void Ant::selectRecvSate(SateGraph::NodeIndex base) // FIXME
 {
     vector<Choice> choices;
     for (SateGraph::NodeIndex sate : bGraph.getAdjList()[base]) {
@@ -74,8 +62,8 @@ Ant::Choice Ant::getChoice(SateGraph::NodeIndex sate) // FIXME
     double probability = 0;
     if (newCoverNum != 0) {
         double t = envPhers_[sate];
-        double n = (double)newCoverNum; // / kPowerPerSite / powerSum;
-        probability = pow(t, alpha_) * pow(n, beta_); // 初始时 0 乘任意数均为 0
+        double n = (double)newCoverNum;// / powerSum;
+        probability = pow(t, alpha_) * pow(n, beta_);
     }
     return Choice{sate, probability, newCoverNum, powerSum};
 }
@@ -103,11 +91,6 @@ const Ant::Choice &Ant::roulette(const vector<Choice> &choices)
         }
     }
     assert(0);
-}
-
-void Ant::producePher() // FIXME
-{
-    pher_ = (double)1 / recvSateSet_.size();
 }
 
 ACO::ACO(double alpha, double beta, double rho, double epsilon, uint16_t antNum)

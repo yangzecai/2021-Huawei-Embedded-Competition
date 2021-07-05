@@ -41,3 +41,13 @@ getNearSateFromSet(const set<SateGraph::NodeIndex> &recvSateSet,
                    SateGraph::NodeIndex base);
 Power getPowerSum(const set<SateGraph::NodeIndex> &recvSateSet);
 void removeRedundantSate(set<SateGraph::NodeIndex> &recvSateSet);
+
+template <typename T> T getRandElemFromSet(const set<T> &s)
+{
+    size_t index = rand() % s.size();
+    auto iter = s.begin();
+    for (size_t i = 0; i < index; ++i) {
+        ++iter;
+    }
+    return *iter;
+}
