@@ -1,11 +1,13 @@
 #include "ACO.h"
 #include <cmath>
+#include <assert.h>
+#include <time.h>
 
 Ant::Ant(const vector<double> &envPhers, double alpha, double beta)
     : envPhers_(envPhers)
     , recvSateSet_()
-    , unusedSates_(sateSubset.begin(), sateSubset.end())
     , uncoverBases_(baseSubset.begin(), baseSubset.end())
+    , coverStatus_(bGraph.getOrder(), false)
     , alpha_(alpha)
     , beta_(beta)
 {
@@ -36,24 +38,22 @@ void Ant::selectRecvSate(SateGraph::NodeIndex base) // FIXME
 
 void Ant::determineChoice(const Choice &choice)
 {
-    unusedSates_.erase(choice.sate);
     recvSateSet_.insert(choice.sate);
     for (SateGraph::NodeIndex base : bGraph.getAdjList()[choice.sate]) {
-        if (uncoverBases_.find(base) != uncoverBases_.end()) {
+        if (!isCovered(base)) {
             uncoverBases_.erase(base);
+            coverStatus_[base] = true;
         }
     }
 }
 
 Ant::Choice Ant::getChoice(SateGraph::NodeIndex sate) // FIXME
 {
-    assert(unusedSates_.find(sate) != unusedSates_.end());
-
     SateGraph::Dist sumDist = 0;
     size_t newCoverNum = 0;
     const vector<SateGraph::NodeIndex> &adjBases = bGraph.getAdjList()[sate];
     for (SateGraph::NodeIndex base : adjBases) {
-        if (uncoverBases_.find(base) != uncoverBases_.end()) {
+        if (!isCovered(base)) {
             ++newCoverNum;
             sumDist += bGraph.getDist(sate, base);
         }
@@ -62,7 +62,7 @@ Ant::Choice Ant::getChoice(SateGraph::NodeIndex sate) // FIXME
     double probability = 0;
     if (newCoverNum != 0) {
         double t = envPhers_[sate];
-        double n = (double)newCoverNum;// / powerSum;
+        double n = (double)newCoverNum; // / powerSum;
         probability = pow(t, alpha_) * pow(n, beta_);
     }
     return Choice{sate, probability, newCoverNum, powerSum};
@@ -105,12 +105,15 @@ ACO::ACO(double alpha, double beta, double rho, double epsilon, uint16_t antNum)
     , deltaPhers_(bGraph.getOrder(), 0)
     , minPowerSum_(SateGraph::kInf)
     , minRecvSateSet_(sateSubset.begin(), sateSubset.end())
+    , startTime_(clock())
 {
 }
 
-void ACO::iterate(uint16_t iterNum)
+void ACO::iterate(uint16_t iterNum, clock_t timeout)
 {
-    for (int i = 0; i < iterNum; ++i) {
+    for (int i = 0;
+         i < iterNum && (clock() - startTime_) / CLOCKS_PER_SEC < timeout;
+         ++i) {
         for (int j = 0; j < antNum_; ++j) {
             Ant ant(phers_, alpha_, beta_);
             ant.run();

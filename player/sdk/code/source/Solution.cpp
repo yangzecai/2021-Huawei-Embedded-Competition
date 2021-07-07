@@ -1,6 +1,6 @@
 #include "Solution.h"
 #include "Dijkstra.h"
-#include "DisJointSet.h"
+#include "ACO.h"
 #include <assert.h>
 
 vector<Route> Solution::Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
@@ -10,8 +10,8 @@ vector<Route> Solution::Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
     initGlobalData(N, C, D, PS, typeVec, edgeVec);
     initMemData();
 
-    ACO antColony(1, 20, 0.5, 0.0001, 10);
-    antColony.iterate(150);
+    ACO antColony(1, 20, 0.45, 0.001, 10);
+    antColony.iterate(100);
     // for (int i = 0; i < 150; ++i) {
     //     antColony.iterate(1);
     //     minRecvSateSet_ = antColony.getMinRecvSateSet();

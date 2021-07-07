@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <fstream>
 
 #include "data.h"
 #include "Solution.h"

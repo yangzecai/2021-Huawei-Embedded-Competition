@@ -1,7 +1,6 @@
 #pragma once
 
 #include "data.h"
-#include <assert.h>
 #include <set>
 
 using std::set;
@@ -24,8 +23,8 @@ public:
 private:
     const vector<double> &envPhers_;
     set<SateGraph::NodeIndex> recvSateSet_;
-    set<SateGraph::NodeIndex> unusedSates_;
     set<SateGraph::NodeIndex> uncoverBases_;
+    vector<bool> coverStatus_;
     const uint8_t alpha_;
     const uint8_t beta_;
 
@@ -36,6 +35,7 @@ private:
         Power powerSum;
     };
 
+    bool isCovered(SateGraph::NodeIndex base) const { return coverStatus_[base]; }
     void selectRecvSate(SateGraph::NodeIndex base);
     SateGraph::NodeIndex getRandUncoverBase()
     {
@@ -54,7 +54,7 @@ public:
     ACO(double alpha, double beta, double rho, double epsilon, uint16_t antNum);
     ~ACO() = default;
 
-    void iterate(uint16_t iterNum);
+    void iterate(uint16_t iterNum, clock_t timeout = 270);
     Power getMinPowerSum() const { return minPowerSum_; }
     const set<SateGraph::NodeIndex> &getMinRecvSateSet() const
     {
@@ -73,6 +73,7 @@ private:
     vector<double> deltaPhers_;
     Power minPowerSum_;
     set<SateGraph::NodeIndex> minRecvSateSet_;
+    clock_t startTime_;
 
     void updatePhers();
     void updateDeltaPhers();

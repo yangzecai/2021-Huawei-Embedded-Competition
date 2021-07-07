@@ -1,11 +1,7 @@
 #pragma once
 
-#include "ACO.h"
-#include "Graph.h"
 #include "RouteParser.h"
 #include "data.h"
-#include <assert.h>
-#include <cmath>
 #include <vector>
 
 using std::vector;

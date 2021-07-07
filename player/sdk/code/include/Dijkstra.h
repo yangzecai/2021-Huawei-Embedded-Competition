@@ -5,6 +5,9 @@
 
 #include <assert.h>
 
+using std::vector;
+using std::priority_queue;
+
 template <class Graph> class Dijkstra {
 public:
     static vector<typename Graph::NodeIndex> unused_;
@@ -64,14 +67,14 @@ Dijkstra<Graph>::operator()(typename Graph::NodeIndex source)
         reached_.reserve(graph_.getOrder());
     }
     vector<bool> isVisited(adjList.size(), false);
-    using PDI = pair<typename Graph::Dist, typename Graph::NodeIndex>;
-    priority_queue<PDI, vector<PDI>, greater<PDI>> minHeap;
+    using PDI = std::pair<typename Graph::Dist, typename Graph::NodeIndex>;
+    priority_queue<PDI, vector<PDI>, std::greater<PDI>> minHeap;
 
     if (monLast_) {
         last_[source] = source;
     }
     dists[source] = 0;
-    minHeap.push(make_pair(0, source));
+    minHeap.push(std::make_pair(0, source));
 
     while (!minHeap.empty()) {
 
@@ -94,7 +97,7 @@ Dijkstra<Graph>::operator()(typename Graph::NodeIndex source)
                     last_[to] = from;
                 }
                 if (isVisited[to] == false) {
-                    minHeap.push(make_pair(dists[to], to));
+                    minHeap.push(std::make_pair(dists[to], to));
                 }
             }
         }

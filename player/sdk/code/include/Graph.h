@@ -1,13 +1,16 @@
 #pragma once
 
 #include "DisJointSet.h"
-#include <algorithm>
 #include <iostream>
-#include <memory>
-#include <unordered_map>
 #include <vector>
+#include <unordered_map>
+#include <algorithm>
 
-using namespace std;
+using std::vector;
+using std::cout;
+using std::endl;
+using std::unordered_map;
+using std::find;
 
 template <typename Node> class Graph {
 public:
@@ -306,7 +309,7 @@ template <typename Node> void Graph<Node>::updateColors() const
                 if (node > adjNode) {
                     usedColor[colors_[adjNode]] = true;
                 } else {
-                    auto iter = find(usedColor.begin(), usedColor.end(), false);
+                    auto iter = std::find(usedColor.begin(), usedColor.end(), false);
                     colors_[node] = iter - usedColor.begin();
                     break;
                 }
