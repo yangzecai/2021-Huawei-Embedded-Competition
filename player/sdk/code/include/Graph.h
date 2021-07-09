@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DisJointSet.h"
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -39,8 +38,6 @@ public:
 
     Graph(Graph &&rhs);
     Graph &operator=(Graph &&rhs);
-
-    vector<Graph<Node>> getConnSubgraphs() const;
 
     void addNode(const Node &node);
     void addNode(Node &&node);
@@ -151,48 +148,6 @@ template <typename Node> Graph<Node> &Graph<Node>::operator=(Graph &&rhs)
 {
     swap(std::move(rhs));
     return *this;
-}
-
-template <typename Node>
-vector<Graph<Node>> Graph<Node>::getConnSubgraphs() const
-{
-    using GraphIndex = typename vector<Graph<Node>>::size_type;
-
-    DisJointSet djs(getOrder());
-
-    vector<Graph> retSubgraphs;
-    unordered_map<typename Node::ID, GraphIndex>
-        graphIndexMap; // Node::ID to subgraphIndex
-    vector<NodeIndex> nodeIndexMap(
-        getOrder()); // Node::ID to NodeIndex in subgraph
-
-    // 求连通节点集合
-    for (auto iter = edges_.cbegin(); iter != edges_.cend(); ++iter) {
-        djs.merge(iter->send, iter->recv);
-    }
-
-    // 将节点添加到相应连通图中
-    for (typename Node::ID i = 0; i < getOrder(); ++i) {
-        typename Node::ID setID = djs.find(i);
-        if (graphIndexMap.find(setID) ==
-            graphIndexMap.end()) { //还未创建所在连通子图
-            graphIndexMap[setID] = retSubgraphs.size();
-            retSubgraphs.push_back(Graph());
-        }
-        GraphIndex graphIndex = graphIndexMap[setID];
-        NodeIndex nodeIndex = retSubgraphs[graphIndex].getOrder();
-        nodeIndexMap[i] = nodeIndex;
-        retSubgraphs[graphIndex].addNode(nodes_[i]);
-    }
-
-    // 将边添加到相应的连通图中
-    for (auto iter = edges_.cbegin(); iter != edges_.cend(); ++iter) {
-        GraphIndex graphIndex = graphIndexMap[djs.find(iter->send)];
-        NodeIndex send = nodeIndexMap[iter->send];
-        NodeIndex recv = nodeIndexMap[iter->recv];
-        retSubgraphs[graphIndex].addEdge({send, recv, iter->dist});
-    }
-    return retSubgraphs;
 }
 
 template <typename Node> void Graph<Node>::addNode(const Node &node)

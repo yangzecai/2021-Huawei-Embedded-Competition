@@ -10,7 +10,7 @@ vector<Route> Solution::Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
     initGlobalData(N, C, D, PS, typeVec, edgeVec);
     initMemData();
 
-    ACO antColony(1, 20, 0.45, 0.001, 10);
+    ACO antColony(1, 20, 0.2, 0.001, 10);
     antColony.iterate(100);
     // for (int i = 0; i < 150; ++i) {
     //     antColony.iterate(1);
