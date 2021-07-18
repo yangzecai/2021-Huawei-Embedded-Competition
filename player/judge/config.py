@@ -69,5 +69,6 @@ class Config:
     CASE_NAME_VEC = [
         "Example",
         "TestData_24",
+        "TestData_23"
     ]
     CASE_NUM = len(CASE_NAME_VEC)
