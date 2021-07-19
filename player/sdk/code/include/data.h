@@ -35,6 +35,8 @@ extern SateGraph::Dist klimitDist;
 extern vector<SateGraph::NodeIndex> baseSubset;
 extern vector<SateGraph::NodeIndex> sateSubset;
 
+extern vector<int> Csites;
+
 SateGraph::NodeIndex
 getNearSateFromSet(const set<SateGraph::NodeIndex> &recvSateSet,
                    SateGraph::NodeIndex base);

@@ -6,17 +6,24 @@ def GetParentPath(path, layer):
     return path
 
 class Config:
-    STAGE_ID =  "pre"
+    PATH_ROOT = GetParentPath(os.getcwd(), 1) + "/"
+
+    TIME_MAX_RUN = 300
+    TIME_MAX_BUILD = 60
+
+    NODE_MAX_ID = 10000
 
     PWR_MAXN                        = 2999999999
     TIME_MAXN                       = 30
+    TIME_UNIT                       = TIME_MAX_RUN / TIME_MAXN
     SCORE_MAXN                      = PWR_MAXN * TIME_MAXN + TIME_MAXN - 1
     def GetFinalScore(sumPwr, avgTime):
         if sumPwr > Config.PWR_MAXN:
             sumPwr = Config.PWR_MAXN
+        avgTime = avgTime / Config.TIME_UNIT
         if avgTime >= Config.TIME_MAXN:
             avgTime = Config.TIME_MAXN - 1
-        return sumPwr * Config.TIME_MAXN + avgTime // Config.TIME_MAXN
+        return sumPwr * Config.TIME_MAXN + avgTime
 
     ERR_CODE_SUCCESS                = 90000000000
     ERR_CODE_BUILD_FAIL             = 90000000101
@@ -59,16 +66,8 @@ class Config:
         ERR_CODE_JUDGE_SEND_LEFT        : "方案错误-未规划所有的发射基站",
     }
 
-    PATH_ROOT = GetParentPath(os.getcwd(), 1) + "/"
-
-    TIME_MAX_RUN = 300
-    TIME_MAX_BUILD = 60
-
-    NODE_MAX_ID = 10000
-
     CASE_NAME_VEC = [
         "Example",
         "TestData_24",
-        "TestData_23"
     ]
     CASE_NUM = len(CASE_NAME_VEC)

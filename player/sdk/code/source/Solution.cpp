@@ -5,14 +5,15 @@
 
 vector<Route> Solution::Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
                              const vector<bool> &typeVec,
-                             const vector<Edge> &edgeVec)
+                             const vector<int> &pwrVec,
+                             const vector<Edge> &edgeVec)   // FIXME : pwrVec unused
 {
-    initGlobalData(N, C, D, PS, typeVec, edgeVec);
+    initGlobalData(N, C, D, PS, typeVec, pwrVec, edgeVec);
     initMemData();
-
-    ACO antColony(1, 20, 0.2, 0.001, 10);
-    antColony.iterate(100);
-    // for (int i = 0; i < 150; ++i) {
+    srand((unsigned) time(NULL));
+    ACO antColony(1, 10, 0.1, 0.001, 10);
+    antColony.iterate(1000);
+    // for (int i = 0; i < 1000; ++i) {
     //     antColony.iterate(1);
     //     minRecvSateSet_ = antColony.getMinRecvSateSet();
     //     cout << antColony.getMinPowerSum()
@@ -40,6 +41,7 @@ void Solution::initMemData()
 
 void Solution::initGlobalData(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
                               const vector<bool> &typeVec,
+                              const vector<int> &pwrVec,
                               const vector<Edge> &edgeVec)
 {
     kPowerPerDist = C;
@@ -48,6 +50,7 @@ void Solution::initGlobalData(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
     initAGraph(N, typeVec, edgeVec);
     initSubset();
     initBGraph();
+    Csites = pwrVec;
 }
 
 void Solution::initAGraph(uint32_t N, const vector<bool> &typeVec,

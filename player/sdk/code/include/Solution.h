@@ -16,6 +16,7 @@ public:
 
     vector<Route> Plan(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
                        const vector<bool> &typeVec,
+                       const vector<int> &pwrVec,
                        const vector<Edge> &edgeVec);
     void connBaseFromSet();
 private:
@@ -25,6 +26,7 @@ private:
     void initMemData();
     void initGlobalData(uint32_t N, uint32_t C, uint32_t D, uint32_t PS,
                         const vector<bool> &typeVec,
+                        const vector<int> &pwrVec,
                         const vector<Edge> &edgeVec);
                         
     void initAGraph(uint32_t N, const vector<bool> &typeVec,

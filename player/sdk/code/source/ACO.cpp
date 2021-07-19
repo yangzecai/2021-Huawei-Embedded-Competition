@@ -54,8 +54,10 @@ Ant::Choice Ant::getChoice(SateGraph::NodeIndex sate) // FIXME
     const vector<SateGraph::NodeIndex> &adjBases = bGraph.getAdjList()[sate];
     for (SateGraph::NodeIndex base : adjBases) {
         if (!isCovered(base)) {
-            ++newCoverNum;
-            sumDist += bGraph.getDist(sate, base);
+            if (bGraph.getDist(sate, base) * Csites[base] <= kPowerPerSite) {
+                newCoverNum += Csites[base];
+                sumDist += bGraph.getDist(sate, base) * Csites[base];
+            }
         }
     }
     Power powerSum = kPowerPerDist * sumDist + kPowerPerSite;
@@ -117,15 +119,13 @@ void ACO::iterate(uint16_t iterNum, clock_t timeout)
         for (int j = 0; j < antNum_; ++j) {
             Ant ant(phers_, alpha_, beta_);
             ant.run();
-            if (ant.getRecvSateSet().size() <= minRecvSateSet_.size()) {
-                Power curPowerSum = getPowerSum(ant.getRecvSateSet());
-                if (curPowerSum < minPowerSum_) {
-                    minPowerSum_ = curPowerSum;
-                    minRecvSateSet_ = ant.getRecvSateSet();
-                    maxPher_ =
-                        (double)1 / (1 - rho_) / (ant.getRecvSateSet().size());
-                    minPher_ = epsilon_ * maxPher_;
-                }
+            Power curPowerSum = getPowerSum(ant.getRecvSateSet());
+            if (curPowerSum < minPowerSum_) {
+                minPowerSum_ = curPowerSum;
+                minRecvSateSet_ = ant.getRecvSateSet();
+                maxPher_ =
+                    (double)1 / (1 - rho_) / (minPowerSum_);
+                minPher_ = epsilon_ * maxPher_;
             }
         }
         updateDeltaPhers();
@@ -136,7 +136,7 @@ void ACO::iterate(uint16_t iterNum, clock_t timeout)
 void ACO::updateDeltaPhers()
 {
     for (SateGraph::NodeIndex sate : minRecvSateSet_) {
-        deltaPhers_[sate] = 1.0 / minRecvSateSet_.size();
+        deltaPhers_[sate] = 1.0 / minPowerSum_;
     }
 }
 

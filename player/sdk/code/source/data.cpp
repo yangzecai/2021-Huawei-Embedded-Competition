@@ -10,6 +10,8 @@ SateGraph::Dist klimitDist;
 vector<SateGraph::NodeIndex> baseSubset;
 vector<SateGraph::NodeIndex> sateSubset;
 
+vector<int> Csites;
+
 SateGraph::NodeIndex
 getNearSateFromSet(const set<SateGraph::NodeIndex> &recvSateSet,
                    SateGraph::NodeIndex base)
@@ -31,7 +33,7 @@ Power getPowerSum(const set<SateGraph::NodeIndex> &recvSateSet)
     Power PowerSum = 0;
     for (SateGraph::NodeIndex base : baseSubset) {
         SateGraph::NodeIndex sate = getNearSateFromSet(recvSateSet, base);
-        PowerSum += bGraph.getDist(sate, base);
+        PowerSum += bGraph.getDist(sate, base) * Csites[base];
     }
     PowerSum *= kPowerPerDist;
     PowerSum += kPowerPerSite * recvSateSet.size();

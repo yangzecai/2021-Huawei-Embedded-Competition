@@ -50,7 +50,7 @@ class Judge():
         cloneCase.spaceSiteSet.remove(recvSite.siteId)
 
         # 累计接收站点的功耗
-        self.__pwr = self.__pwr + cloneCase.GetPwr()
+        self.__pwr = self.__pwr + cloneCase.GetRecvPwr(recvSite.siteId)
 
         for initRoute in recvSite.routeVec:
             routeStr = str(initRoute)
@@ -87,7 +87,7 @@ class Judge():
                 if not cloneCase.IsRouteDistValid(routeDist):
                     return JudgeResult(Config.ERR_CODE_JUDGE_ROUTE_LENOUT, "路径=%s" % routeStr)
                 # 累计发射的功耗
-                self.__pwr = self.__pwr + edgeDist * cloneCase.castPwr
+                self.__pwr = self.__pwr + edgeDist * cloneCase.castPwr * commonCase.GetSendPwr(groundSiteId)
 
 
         for route in recvSite.routeVec:
